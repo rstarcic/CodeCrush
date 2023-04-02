@@ -8,6 +8,6 @@ CodeCrush sadrži sljedeće funckionalnosti:
 - prijava i registracija korisnika
 - favorit (osobno označene najkorisnije lekcije)
 - dropdown menu za sljedeće programske jezike: HTML, CSS, JS i MD
-- link na javni prototip: 
+- link na javni prototip: https://www.figma.com/file/PAl7mTzfRZ2ztNRKwhjKaC/CodeCrush---javni-prototip?t=KF0wB7xi4Rq3v3qY-1
 - planirana zaduženja: drop down menu za JS i MD, JS i MD lekcije, JS i MD zadaci, završni kviz za JS i MD. 
  
