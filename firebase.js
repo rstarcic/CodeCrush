@@ -23,7 +23,10 @@ const auth = getAuth(app);
 const storage = getStorage(app);
 const db = getFirestore(app);
 
-export { app, auth, storage,
+export { 
+  app, 
+  auth, 
+  storage,
   getAuth,
 	db,
   doc,

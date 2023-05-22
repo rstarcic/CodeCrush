@@ -1,6 +1,5 @@
 <template>
     <div class="background">
-      <!-- Sadržaj vašeg pogleda -->
     </div>
   </template>
   
@@ -15,6 +14,6 @@
 
 <script>
 export default {
-    name: 'background'
+    name: 'BackgroundComponent'
 }
 </script>

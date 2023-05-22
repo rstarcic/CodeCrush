@@ -1,11 +1,11 @@
 <template>
-  <background>
   <v-container fill-height fluid class="background">
+    <BackgroundComponent/>
     <v-row align="center" justify="center">
       <v-col align="center" justify="center" cols="12">
-        <v-card width="500px" outlined>
-          <v-card-title class="text">LOGIN</v-card-title>
-          <v-card-subtitle class="text">Dear user, please login</v-card-subtitle>
+        <v-card class="login-card" outlined>
+          <v-card-title class="login-text">LOGIN</v-card-title>
+          <v-card-subtitle class="login-subtext">Dear user, please login</v-card-subtitle>
           <v-card-text class="card-text-border"></v-card-text>
           <v-form>
             <v-text-field v-model="email" 
@@ -29,7 +29,7 @@
                 </v-btn>
             </template>
             </v-text-field>
-            <v-btn class="sign-in-btn rounded-pill" text to="/programming-language" color="#FFFFFF" @click="LoggedIn">SIGN IN</v-btn>
+            <v-btn tile class="sign-in-btn rounded-lg" text to="/programming-language" color="#FFFFFF" @click="LoggedIn">SIGN IN</v-btn>
           </v-form>
           <div class="password-class">
             <v-btn text x-small color="blue">Forgot password?</v-btn>
@@ -38,24 +38,30 @@
       </v-col>
     </v-row>
   </v-container>
-  </background>
 </template>
 
 <style>
-.text {
-    text-align: center;
-    justify-content: center;
+.login-card {
+  width: 400px;
+  padding: 16px;
 }
-.v-text-field {
-    width: 300px;
+.login-text, .login-subtext {
+  text-align: center;
+  justify-content: center;
+}
+.text-field {
+  width: 300px;
 }
 .sign-in-btn {
-    background-color: #581E64;
-    border-radius: 50px;
-    height: 20px;
-    width: 250px;
-    padding: 15px;
-    font-size: 16px;
+  background-color: #581E64;
+  border: 1px solid #000;
+  padding: 10px 20px;
+  border-radius: 2px;
+  font-size: 16px;
+  cursor: pointer;
+  height: 35px;
+  width: 250px;
+  padding: 15px;
 }
 .password-class {
   margin-bottom: 15px;
@@ -64,7 +70,7 @@
 </style>
 
 <script>
-import background from "@/components/BackgroundComponent.vue"
+import BackgroundComponent from "@/components/BackgroundComponent.vue"
 import {
 	auth,
 	sendPasswordResetEmail,
@@ -79,13 +85,23 @@ export default {
             IsPasswordShowed: false,
         };
     },
+    components: {
+      BackgroundComponent,
+    },
     methods: {
-    async LoggedIn() {
-        let email = this.email;
-        let password = this.password;
-        try {
+      async LoggedIn() {
+      let email = this.email;
+      let password = this.password;
+      
+      try {
         await auth.signInWithEmailAndPassword(email, password);
-        this.$router.push("/programming-language");
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            this.$router.push("/programming-language");
+          } else {
+            alert("Korisnik nije autentificiran.");
+          }
+        });
       } catch (error) {
         alert(error.message);
       }

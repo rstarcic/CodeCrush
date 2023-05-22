@@ -3,7 +3,7 @@
     <v-parallax dark src="@/assets/Background.png">
       <v-row align="center" justify="center">
         <v-col class="text-center" cols="12">
-          <h1 class="text-h4 font-weight-thin mb-4">
+          <h1 class="text-h3 font-weight-thin mb-4">
             Crush your coding skills with Code Crush!
           </h1>
           <h4 class="subheading">
@@ -12,17 +12,21 @@
         </v-col>
       </v-row>
       <v-row align="center" justify="center">
-        <v-card v-for="info in information" :key="info.aboutWebsite" elevation="2" class="info-cards" color="#A271B0">
+        <v-card v-for="info in information" :key="info.aboutWebsite" elevation="2" class="info-cards" color="#FFFFFF">
           <v-col cols="12">
             <v-card-text>
-              <v-icon class="icon-spacing" color="#581E64">{{ info.icon }}</v-icon>
-              <h2>{{ info.aboutWebsite }}</h2>
+              <div class="icon-text-container">
+                <div class="icon-container">
+                  <v-icon class="icon-up" color="#4b408b">{{ info.icon }}</v-icon>
+                </div>
+                <h2 class="info-text">{{ info.aboutWebsite }}</h2>
+              </div>
             </v-card-text>
           </v-col>
         </v-card>
       </v-row>
     </v-parallax>
-    <v-container fluid>
+    <v-container fluid style="background-color: #581E64;">
       <v-card v-for="card in cards" :key="card.title" elevation="2" class="mx-auto" max-width="700" v-ripple>
         <v-row>
           <v-col cols="6">
@@ -31,7 +35,7 @@
           <v-col cols="6">
             <v-card-text>
               <h2 style="margin-bottom: 10px;">{{ card.title }}</h2>
-              <p>{{ card.description }}</p>
+              <p class="description">{{ card.description }}</p>
               <div class="learning-time">
                 <v-icon class="learning-time-icon">mdi-clock-outline</v-icon>
                 <span class="learning-time-text">{{ card.learningTime }}</span>
@@ -39,23 +43,94 @@
             </v-card-text>
           </v-col>
         </v-row>
+        <v-card tile outlined class="custom-card" color="#4b408b">
+          <v-col cols="12">
+          </v-col>
+        </v-card>
       </v-card>
+      <div class="rectangle">
+        <h1>Hey, you!</h1>
+        <p>Picture this: you're sitting at your computer, <b>fingers poised on the keyboard</b>, 
+          ready to type your way into a <b>world of creativity and problem-solving</b>. With each 
+          keystroke, you unlock the door to a universe where ideas take shape and imagination 
+          knows <b>no limits</b>. That's where <b>CodeCrush</b> comes to the rescue, ready to be your trusty 
+          guide in this awe-inspiring journey.
+        </p>
+        <v-btn elevation="2" outlined class="signup-button" to="/signup">Get Started</v-btn>
+      </div>
+      <div class="letter-container">
+        <v-row class="heading-alignment">
+          <v-col cols="12">
+            <h2 class="heading">Firsthand Experience: What users say about our application</h2>
+          </v-col>
+        </v-row>
+        <v-row class="letter-cards">
+          <v-card v-for="user in userOpinion" :key="user.initials" elevation="2" class="letter-card" color="yellow lighten-3">
+            <v-col cols="12">
+              <v-card-text>
+                <v-icon size="32" color="black">mdi-format-quote-open</v-icon>
+                <h2 class="letter-content">{{ user.opinion }}</h2>
+                <v-icon size="32" color="black">mdi-format-quote-close</v-icon>
+                <p class="letter-signature">{{ user.initials }}</p>
+              </v-card-text>
+            </v-col>
+          </v-card>
+        </v-row>
+      </div>
     </v-container>
-</div>
+  </div>
 </template>
 
-
 <style>
-.sign-in-btn, .sign-up-btn {
-  background-color: #581E64;
-  color: #FFFFFF;
-  border-radius: 50px;
-  height: 20px;
-  width: 250px;
-  padding: 15px;
-  font-size: 16px;
-  margin: 5px;
+.text-center {
+  font-family:'Arial', sans-serif;
+  font-size: 15px;
+  color:#FFFFFF;
+  margin-top: 50px;
 }
+
+.subheading {
+  font-size: 30px;
+  font-weight: 70;
+  color:#FFFFFF;
+}
+
+.info-cards {
+  height: 200px;
+  width: 200px; 
+  border-radius: 20px;
+  margin-right: 20px;
+  padding: 15px 10px;
+  margin-bottom: 35px;
+}
+
+.icon-text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.icon-up {
+  margin-top: -15px;
+  color: #921946;
+}
+.info-text {
+    font-size: 16px;
+    margin: 0;
+}
+
+.mx-auto {
+  margin-bottom: 20px;
+  margin-top: 30px;
+}
+
+.img-margin {
+  margin-top: 25px;
+  margin-left: 20px;
+}
+
 .learning-time {
   display: flex;
   align-items: center;
@@ -71,35 +146,86 @@
   font-size: 14px;
   font-weight: bold;
 }
-.mx-auto {
-  margin-bottom: 20px;
-  margin-top: 30px;
+
+.rectangle {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 250px;
+  background-color: #FFFFFF;
+  padding: 20px 100px;
+  margin-top: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
 }
-.img-margin {
-  margin-top: 25px;
-  margin-left: 20px;
+
+.rectangle:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
 }
-.heading {
+
+.rectangle h1 {
+  font-size: 30px;
   margin-bottom: 10px;
+  color: #000000;
 }
-.info-cards {
-  height: 200px;
-  width: 200px; 
-  border-radius: 20px;
-  margin-right: 20px;
+
+.rectangle p {
+  font-size: 20px;
+  color: #000000;
 }
-.text-center {
-  font-family:'Arial', sans-serif;
+
+.signup-button {
+  background-color: white;
+  color: #000;
+  border: 1px solid #000;
+  padding: 10px 20px;
+  border-radius: 2px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.letter-cards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.letter-cards v-icon:first-child {
+  margin-right: 10px; 
+}
+.letter-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 300px;
+  margin: 10px 20px 100px 0px;
+  padding: 10px;
+}
+
+.letter-content {
   font-size: 15px;
-  color:#FFFFFF;
-  margin-top: 50px;
+  text-align: center;
 }
-.icon-spacing {
-  margin-bottom: 10px
+
+.letter-signature {
+  font-style: italic;
+  text-align: right;
 }
-.subheading {
-  font-size: 25px;
-  font-weight: 100;
+
+.heading-alignment {
+  justify-content: center;
+  text-align: center;
+}
+
+.heading {
+  font-size: 30px;
+  margin-bottom: 10px;
+  color: #FFFFFF;
+}
+
+.letter-container {
+  margin-top: 350px;
 }
 </style>
 
@@ -144,13 +270,26 @@ export default {
         },
         {
           icon: 'mdi-pencil',
-          aboutWebsite: 'Quizzes for each lesson.'
+          aboutWebsite: 'Take quizzes for each lesson.'
         },
         {
           icon: 'mdi-notebook-check',
           aboutWebsite: 'Crush the final exam for each programming language.'
-        }
-      ]
+        }],
+        userOpinion: [
+          {
+            initials: 'Olivila Wilson',
+            opinion: 'CodeCrush has been a true game-changer for me! The amount of progress I have made is mind-blowing.'
+          },
+          {
+            initials: 'dr. Bruce Banner',
+            opinion: 'HULK CRUSH!!'
+          },
+          {
+            initials: 'Elon Musk',
+            opinion: 'CodeCrush is great. I Crushed my "Super Heavy" rocket with Markdown.'
+          }
+        ]
     }
   }
 }
