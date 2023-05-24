@@ -3,16 +3,26 @@
     <v-app-bar app color="#581E64" dense>
       <div class="d-flex align-center">
         <router-link to="/">
-          <v-img alt="Logo Code Crush" contain src="@/assets/Logo.png" width="48" height="48"/>
+          <v-img
+            alt="Logo Code Crush"
+            contain
+            src="@/assets/Logo.png"
+            width="48"
+            height="48"
+          />
         </router-link>
       </div>
       <v-spacer></v-spacer>
       <v-btn color="#FFFFFF" text to="/" v-if="isAuthenticated">HOME</v-btn>
-		  <v-btn color="#FFFFFF" text to="/html" v-if="isAuthenticated">HTML</v-btn>
-		  <v-btn color="#FFFFFF" text to="/css" v-if="isAuthenticated">CSS</v-btn>
-		  <v-btn color="#FFFFFF" text to="/javascript" v-if="isAuthenticated">JAVASCRIPT</v-btn>
-		  <v-btn color="#FFFFFF" text to="/markdown" v-if="isAuthenticated">MARKDOWN</v-btn>
-		  <v-spacer></v-spacer>
+      <v-btn color="#FFFFFF" text to="/html" v-if="isAuthenticated">HTML</v-btn>
+      <v-btn color="#FFFFFF" text to="/css" v-if="isAuthenticated">CSS</v-btn>
+      <v-btn color="#FFFFFF" text to="/javascript" v-if="isAuthenticated"
+        >JAVASCRIPT</v-btn
+      >
+      <v-btn color="#FFFFFF" text to="/markdown" v-if="isAuthenticated"
+        >MARKDOWN</v-btn
+      >
+      <v-spacer></v-spacer>
       <v-btn elevation="0" small color="#581E64" dark class="mr-2" to="/login">
         <v-icon dark>mdi-login-variant</v-icon>
         <span class="white--text">Sign In</span>
@@ -20,21 +30,20 @@
       <v-btn text small class="navbar-tile-btn" to="/signup">
         <v-icon color="white">mdi-account-plus</v-icon>
         <span class="white--text">Sign Up</span>
-      </v-btn>    
-         
-	  </v-app-bar>
+      </v-btn>
+    </v-app-bar>
     <v-main>
-      <router-view/>
+      <router-view />
     </v-main>
     <v-footer color="#581E64">
       <v-card-title class="footer-text">
-          Get connected with us on social networks!
+        Get connected with us on social networks!
       </v-card-title>
       <div class="d-flex ml-auto">
         <v-btn small class="social-button mr-2">
           <v-icon class="social-icon" left>mdi-facebook</v-icon> Facebook
         </v-btn>
-      	<v-btn small class="social-button mr-2">
+        <v-btn small class="social-button mr-2">
           <v-icon class="social-icon" left>mdi-twitter</v-icon> Twitter
         </v-btn>
         <v-btn small class="social-button mr-2">
@@ -45,45 +54,44 @@
   </v-app>
 </template>
 <script>
-import { auth, onAuthStateChanged  } from "../firebase.js"
+import { auth, onAuthStateChanged } from "../firebase.js";
 export default {
-  name: 'App',
+  name: "App",
   data() {
     return {
       isAuthenticated: false,
     };
   },
   methods: {
-    checkIfUserAuthenticated() { 
+    checkIfUserAuthenticated() {
       onAuthStateChanged(auth, (user) => {
-        if(user) {
+        if (user) {
           this.isAuthenticated = true;
           debugger;
-        }
-        else {
+        } else {
           this.isAuthenticated = false;
         }
       });
-    }
+    },
   },
   mounted() {
     this.checkIfUserAuthenticated();
-  }
+  },
 };
 </script>
 
 
 <style>
 .custom-title {
-  color: #F5EEEE;
-  font-family:'Courier New', Courier, monospace;
+  color: #f5eeee;
+  font-family: "Courier New", Courier, monospace;
   font-weight: bold;
 }
 .button-favorites {
-  color: #581E64;
+  color: #581e64;
 }
 .footer-text {
-  color: #F5EEEE;
+  color: #f5eeee;
   font-size: 16px;
   padding: 5px;
 }
@@ -101,11 +109,10 @@ export default {
 .navbar-tile-btn {
   border: 1px solid white;
   border-radius: 0px;
-  color: #581E64 !important;
+  color: #581e64 !important;
 }
 
 .social-icon {
   color: #4b408b !important;
 }
-
 </style>
