@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid style="background-color: #581E64;">
+  <v-container fluid style="background-color: #581e64">
     <div class="header">
       <h1>Explore Coding Paths: Click the Buttons Below</h1>
     </div>
@@ -22,7 +22,7 @@
       </v-col>
       <v-responsive width="100%"></v-responsive>
       <v-col cols="6" class="grid-col">
-        <v-btn tile class="grid-button" height="300px" to="/javascript"> 
+        <v-btn tile class="grid-button" height="300px" to="/javascript">
           <div>
             <h1 class="sub-title">JavaScript</h1>
             <p class="description">The language for programming webpages</p>
@@ -33,7 +33,9 @@
         <v-btn tile class="grid-button" height="300px" to="/markdown">
           <div>
             <h1 class="sub-title">Markdown</h1>
-            <p class="description">The language for adding formatting elements to plain text</p>
+            <p class="description">
+              The language for adding formatting elements to plain text
+            </p>
           </div>
         </v-btn>
       </v-col>
@@ -45,22 +47,22 @@
 .header {
   text-align: center;
   margin-bottom: 30px;
-  color:#FFFFFF;
+  color: #ffffff;
 }
 .sub-title {
   font-size: 26px;
-  color: #FFFFFF;
+  color: #ffffff;
   margin-right: 0px;
 }
 .description {
   font-size: 18px;
-  color: #FFFFFF;
+  color: #ffffff;
   font-style: italic;
   margin-top: 0px;
 }
 .grid-button {
   border: 1px solid white;
-  background: linear-gradient(135deg, #581E64 0%, #155FC1 100%);
+  background: linear-gradient(135deg, #581e64 0%, #155fc1 100%);
   border-radius: 0px;
   font-size: 30px;
   text-align: center;
@@ -70,15 +72,13 @@
 </style>
   
 <script>
-import BackgroundComponent from '@/components/BackgroundComponent.vue';
+import BackgroundComponent from "@/components/BackgroundComponent.vue";
 export default {
   data() {
-    return {
-
-    }
+    return {};
   },
   components: {
     BackgroundComponent,
-  }
-}
+  },
+};
 </script>
