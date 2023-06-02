@@ -1,13 +1,10 @@
 <template>
   <v-container fill-height fluid class="background">
     <BackgroundComponent />
-<<<<<<< Updated upstream
-=======
     <DropdownMenu
       :title="programminglanguageHTML[0].Title"
       :lessons="programminglanguageHTML[0].lessonList"
     />
->>>>>>> Stashed changes
     <v-container>
       <v-row align="center" justify="center" class="vrow">
         <v-col class="text-center" cols="12">
@@ -18,13 +15,8 @@
     </v-container>
   </v-container>
 </template>
-<<<<<<< Updated upstream
   
-  <style>
-=======
-    
-    <style>
->>>>>>> Stashed changes
+<style>
 .txth4 {
   font-size: 30px;
   font-weight: 70;
@@ -34,16 +26,9 @@
   margin-bottom: 500px;
 }
 </style>
-<<<<<<< Updated upstream
   
-  <script>
-import BackgroundComponent from "@/components/BackgroundComponent.vue";
-export default {
-  components: {
-    BackgroundComponent,
-=======
     
-  <script>
+<script>
 import BackgroundComponent from "@/components/BackgroundComponent.vue";
 import DropdownMenu from "@/components/DropdownMenu.vue";
 
@@ -92,7 +77,6 @@ export default {
   components: {
     BackgroundComponent,
     DropdownMenu,
->>>>>>> Stashed changes
   },
 };
 </script>
