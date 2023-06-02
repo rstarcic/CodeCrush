@@ -1,21 +1,4 @@
 <template>
-<<<<<<< Updated upstream
-  <div>
-    <BackgroundComponent />
-    <DropdownMenu />
-    <v-container fill-height fluid class="background">
-      <BackgroundComponent />
-      <v-container>
-        <v-row align="center" justify="center" class="vrow">
-          <v-col class="text-center" cols="12">
-            <h1 class="text-h2 font-weight-thin mb-4">HTML Lectures</h1>
-            <h4 class="txth4">Learn how to use HTML!</h4>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-container>
-  </div>
-=======
   <v-container fill-height fluid class="background">
     <BackgroundComponent />
     <v-container>
@@ -33,36 +16,15 @@
       </v-row>
     </v-container>
   </v-container>
->>>>>>> Stashed changes
 </template>
 <script>
 import BackgroundComponent from "@/components/BackgroundComponent.vue";
 import DropdownMenu from "@/components/DropdownMenu.vue";
-<<<<<<< Updated upstream
-export default {
-  data() {
-    return {
-      lessons: [
-        {
-          title: "Home",
-        },
-        {
-          title: "Where to",
-        },
-        {
-          title: "Output",
-        },
-        {
-          title: "Statements",
-        },
-      ],
-=======
 import { auth, db, storage, firebase } from "../../firebase";
 export default {
   data() {
     return {
       documentData: {},
->>>>>>> Stashed changes
     };
   },
   components: {
