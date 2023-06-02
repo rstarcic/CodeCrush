@@ -13,7 +13,9 @@
         </router-link>
       </div>
       <v-spacer></v-spacer>
-      <v-btn color="#FFFFFF" text to="/" v-if="isAuthenticated">HOME</v-btn>
+      <v-btn color="#FFFFFF" text to="/profile" v-if="isAuthenticated"
+        >Profile</v-btn
+      >
       <v-btn color="#FFFFFF" text to="/html" v-if="isAuthenticated">HTML</v-btn>
       <v-btn color="#FFFFFF" text to="/css" v-if="isAuthenticated">CSS</v-btn>
       <v-btn color="#FFFFFF" text to="/javascript" v-if="isAuthenticated"
@@ -23,11 +25,36 @@
         >MARKDOWN</v-btn
       >
       <v-spacer></v-spacer>
-      <v-btn elevation="0" small color="#581E64" dark class="mr-2" to="/login">
+      <v-btn
+        v-on:click="signOut"
+        text
+        small
+        class="navbar-tile-btn"
+        to="/"
+        v-if="isAuthenticated"
+      >
+        <v-icon color="white">mdi-signout</v-icon>
+        <span class="white--text">Sign Out</span>
+      </v-btn>
+      <v-btn
+        elevation="0"
+        small
+        color="#581E64"
+        dark
+        class="mr-2"
+        to="/login"
+        v-if="!isAuthenticated"
+      >
         <v-icon dark>mdi-login-variant</v-icon>
         <span class="white--text">Sign In</span>
       </v-btn>
-      <v-btn text small class="navbar-tile-btn" to="/signup">
+      <v-btn
+        text
+        small
+        class="navbar-tile-btn"
+        to="/signup"
+        v-if="!isAuthenticated"
+      >
         <v-icon color="white">mdi-account-plus</v-icon>
         <span class="white--text">Sign Up</span>
       </v-btn>
@@ -53,25 +80,47 @@
     </v-footer>
   </v-app>
 </template>
+
 <script>
-import { auth, onAuthStateChanged } from "../firebase.js";
+import { auth, db, storage, firebase } from "../firebase";
+
 export default {
   name: "App",
   data() {
     return {
       isAuthenticated: false,
+      isSigningOut: false,
     };
   },
   methods: {
     checkIfUserAuthenticated() {
-      onAuthStateChanged(auth, (user) => {
+      auth.onAuthStateChanged((user) => {
         if (user) {
           this.isAuthenticated = true;
-          debugger;
+          if (this.$route.path !== "/profile") {
+            this.$router.push("/profile");
+          }
         } else {
           this.isAuthenticated = false;
+          if (this.$route.path !== "/") {
+            this.$router.push("/");
+          }
         }
       });
+    },
+    signOut() {
+      this.isSigningOut = true;
+      auth
+        .signOut()
+        .then(() => {
+          this.isAuthenticated = false;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          this.isSigningOut = false;
+        });
     },
   },
   mounted() {
@@ -79,6 +128,7 @@ export default {
   },
 };
 </script>
+
 
 
 <style>
@@ -101,7 +151,7 @@ export default {
   left: 0;
   right: 0;
   margin: auto;
-  width: 100%; /* Adjust the max-width as needed */
+  width: 100%;
   border-radius: 0;
   padding: 10px;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
@@ -115,4 +165,4 @@ export default {
 .social-icon {
   color: #4b408b !important;
 }
-</style>
+</style> 

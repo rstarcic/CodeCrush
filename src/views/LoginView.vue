@@ -1,35 +1,50 @@
 <template>
   <v-container fill-height fluid class="background">
-    <BackgroundComponent/>
+    <BackgroundComponent />
     <v-row align="center" justify="center">
       <v-col align="center" justify="center" cols="12">
         <v-card class="login-card" outlined>
           <v-card-title class="login-text">LOGIN</v-card-title>
-          <v-card-subtitle class="login-subtext">Dear user, please login</v-card-subtitle>
+          <v-card-subtitle class="login-subtext"
+            >Dear user, please login</v-card-subtitle
+          >
           <v-card-text class="card-text-border"></v-card-text>
           <v-form>
-            <v-text-field v-model="email" 
-            class="text-field" 
-            type="text" 
-            dense outlined 
-            label="Email"
-            placeholder="Enter your email" 
+            <v-text-field
+              v-model="email"
+              class="text-field"
+              type="email"
+              dense
+              outlined
+              label="Email"
+              placeholder="Enter your email"
             ></v-text-field>
-            <v-text-field v-model="password" 
-            class="text-field" 
-            dense outlined 
-            label="Password"
-            placeholder="Enter your password" 
-            hint="At least 8 characters" 
-            :type="IsPasswordShowed ? 'text' : 'password'"
+            <v-text-field
+              v-model="password"
+              class="text-field"
+              dense
+              outlined
+              label="Password"
+              placeholder="Enter your password"
+              hint="At least 8 characters"
+              :type="IsPasswordShowed ? 'text' : 'password'"
             >
-            <template v-slot:append>
-                <v-btn icon @click="IsIconPasswordToggled">
-                <v-icon>{{ IsPasswordShowed ? 'mdi-eye' : 'mdi-eye-off' }}</v-icon>
+              <template v-slot:append>
+                <v-btn icon @click="IsIconPasswordToggled()">
+                  <v-icon>{{
+                    IsPasswordShowed ? "mdi-eye" : "mdi-eye-off"
+                  }}</v-icon>
                 </v-btn>
-            </template>
+              </template>
             </v-text-field>
-            <v-btn tile class="sign-in-btn rounded-lg" text to="/programming-language" color="#FFFFFF" @click="LoggedIn">SIGN IN</v-btn>
+            <v-btn
+              tile
+              class="sign-in-btn rounded-lg"
+              text
+              color="#FFFFFF"
+              @click="LoggedIn"
+              >SIGN IN</v-btn
+            >
           </v-form>
           <div class="password-class">
             <v-btn text x-small color="blue">Forgot password?</v-btn>
@@ -45,7 +60,8 @@
   width: 400px;
   padding: 16px;
 }
-.login-text, .login-subtext {
+.login-text,
+.login-subtext {
   text-align: center;
   justify-content: center;
 }
@@ -53,7 +69,7 @@
   width: 300px;
 }
 .sign-in-btn {
-  background-color: #581E64;
+  background-color: #581e64;
   border: 1px solid #000;
   padding: 10px 20px;
   border-radius: 2px;
@@ -70,45 +86,36 @@
 </style>
 
 <script>
-import BackgroundComponent from "@/components/BackgroundComponent.vue"
-import {
-	auth,
-	sendPasswordResetEmail,
-	signInWithEmailAndPassword,
-} from "../../firebase.js";
+import BackgroundComponent from "@/components/BackgroundComponent.vue";
+import { auth, db, storage, firebase } from "../../firebase";
 
 export default {
-    data() {
-        return {
-            email:'',
-            password:'',
-            IsPasswordShowed: false,
-        };
-    },
-    components: {
-      BackgroundComponent,
-    },
-    methods: {
-      async LoggedIn() {
-      let email = this.email;
-      let password = this.password;
-      
-      try {
-        await auth.signInWithEmailAndPassword(email, password);
-        auth.onAuthStateChanged((user) => {
-          if (user) {
-            this.$router.push("/programming-language");
-          } else {
-            alert("Korisnik nije autentificiran.");
-          }
+  data() {
+    return {
+      email: "",
+      password: "",
+      IsPasswordShowed: false,
+    };
+  },
+  components: {
+    BackgroundComponent,
+  },
+  methods: {
+    async LoggedIn() {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.email, this.password)
+        .then(() => {
+          console.log("Successful Login");
+          this.$router.push({ path: "/profile" });
+        })
+        .catch((error) => {
+          alert(error.message);
         });
-      } catch (error) {
-        alert(error.message);
-      }
     },
     IsIconPasswordToggled() {
-        this.IsPasswordShowed = !this.IsPasswordShowed; 
-    }
-  }
+      this.IsPasswordShowed = !this.IsPasswordShowed;
+    },
+  },
 };
 </script>

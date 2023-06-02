@@ -7,7 +7,7 @@ import HTMLView from '../views/HTMLView.vue'
 import CSSView from '../views/CSSView.vue'
 import MarkdownView from '../views/MarkdownView.vue'
 import JavascriptView from '../views/JavascriptView.vue'
-import ProgrammingLanguageView from '../views/ProgrammingLanguageView.vue'
+import ProfileView from '../views/ProfileView.vue'
 
 Vue.use(VueRouter)
 
@@ -48,9 +48,9 @@ const routes = [
     component: JavascriptView
   },
   {
-    path: '/programming-language',
-    name: 'programming-language-view',
-    component: ProgrammingLanguageView
+    path: '/profile',
+    name: 'profile-view',
+    component: ProfileView
   },
 ]
 

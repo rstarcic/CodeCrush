@@ -1,11 +1,9 @@
 
-import firebase from 'firebase/compat/app'
-import { doc, addDoc, getDoc, setDoc, getDocs, getCount, getFirestore, collection } from 'firebase/firestore/lite'
-import { getAuth, updatePassword, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, confirmPasswordReset, beforeAuthStateChanged, onAuthStateChanged } from 'firebase/auth'
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
+import 'firebase/storage';
 
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDZC1IV1nczXrnBZdO3dH6DInM4HOe-HoY",
@@ -17,31 +15,10 @@ const firebaseConfig = {
   measurementId: "G-6V4968QHY6"
 };
 
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const auth = getAuth(app);
-const storage = getStorage(app);
-const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
 
-export { 
-  app, 
-  auth, 
-  storage,
-  getAuth,
-	db,
-  doc,
-  getDoc,
-	setDoc,
-  addDoc,
-	createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail,
-  onAuthStateChanged,
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  signOut,
-  updatePassword,
-  confirmPasswordReset,
-  getDocs, getCount, getFirestore, collection, beforeAuthStateChanged, analytics
-};
+const auth = firebase.auth();
+let db = firebase.firestore()
+let storage = firebase.storage()
+
+export { auth, firebase, db, storage };
