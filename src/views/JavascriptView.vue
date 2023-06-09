@@ -2,6 +2,11 @@
   <v-container fill-height fluid class="background">
     <BackgroundComponent />
     <v-container>
+      <DropdownMenu
+        :lessonTitles="lessonTitles"
+        :toolbarTitle="toolbarTitle"
+        :languageRoute="languageRoute"
+      />
       <v-row align="center" justify="center" class="vrow">
         <v-col class="text-center" cols="12">
           <h1 class="text-h2 font-weight-thin mb-4">
@@ -25,6 +30,9 @@ export default {
   data() {
     return {
       documentData: {},
+      lessonTitles: [],
+      toolbarTitle: "JavaScript Tutorial",
+      languageRoute: "javascript",
     };
   },
   components: {
@@ -37,15 +45,18 @@ export default {
   methods: {
     async getJSData() {
       const querySnapshot = await db.collection("javascript").get();
+      const lessonTitles = [];
 
       querySnapshot.forEach((documentSnapshot) => {
         debugger;
         const documentId = documentSnapshot.id;
         const documentData = documentSnapshot.data();
-
+        const title = documentData.Title;
+        lessonTitles.push(title);
         console.log(documentId, " => ", documentData);
         console.log(querySnapshot);
       });
+      this.lessonTitles = lessonTitles;
     },
     catch(error) {
       console.error(error);

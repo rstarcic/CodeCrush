@@ -1,75 +1,63 @@
 <template>
-  <div>
-    <v-menu offset-y>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          tile
-          class="menu-btn custom-text-color rounded-0"
-          v-bind="attrs"
-          v-on="on"
-          color="#581E64"
-        >
-          {{ title }}
-        </v-btn>
-      </template>
-      <v-card class="custom-card">
-        <v-list flat class="custom-list" color="#581E64">
-          <v-list-item
-            v-for="lesson in lessons"
-            :key="lesson.id"
-            class="lesson-item custom-text-color"
-          >
-            <v-list-item-title>{{ lesson.title }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </v-menu>
-  </div>
+  <v-navigation-drawer permanent color="#581E64" class="custom-drawer">
+    <v-toolbar color="#581e64" class="toolbar-class">
+      <v-toolbar-title class="menu-title">
+        {{ toolbarTitle }}
+      </v-toolbar-title>
+    </v-toolbar>
+    <v-list dense class="custom-list" color="#581E64">
+      <v-list-item
+        v-for="(title, id) in lessonTitles"
+        :key="id"
+        @click="$router.push(`/${languageRoute}/${title}`)"
+        class="lesson-item"
+      >
+        <v-list-item-title>{{ title }}</v-list-item-title>
+      </v-list-item>
+    </v-list>
+  </v-navigation-drawer>
 </template>
 
 <script>
 export default {
   name: "DropdownMenu",
   props: {
-    title: {
+    lessonTitles: {
+      type: Array,
+      default: () => [],
+    },
+    toolbarTitle: {
       type: String,
       required: true,
     },
-    lessons: {
-      type: Array,
-      default: () => [],
+    languageRoute: {
+      type: String,
+      required: true,
     },
   },
 };
 </script>
 
 <style>
-.menu-btn {
-  text-align: left;
+.custom-drawer {
+  left: 0;
+  top: 0;
+  width: 240px !important;
+  transform: translateX(0);
+  position: fixed;
+  overflow-x: hidden;
 }
-.custom-text-color {
+.toolbar-class {
+  min-height: 100px;
+  padding-top: 45px;
+  padding-left: 10px;
+}
+.menu-title {
+  font-size: 18px;
   color: #ffffff !important;
+  font-weight: bold;
 }
-.custom-card {
-  left: 0 !important;
-  right: auto !important;
-  transform-origin: left top;
-  width: 100%;
-}
-
-.custom-list {
-  padding-left: 0;
-}
-
 .lesson-item {
-  text-align: left;
-  border-top: 1px solid #ffffff;
-}
-
-.v-menu__content {
-  /* unutarnji sadržaj v-menu  */
-  left: 0 !important;
-  right: auto !important;
-  max-width: unset;
+  color: #ffffff !important;
 }
 </style>

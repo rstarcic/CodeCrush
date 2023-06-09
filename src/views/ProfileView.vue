@@ -7,6 +7,7 @@
         mini-variant
         mini-variant-width="55"
         permanent
+        class="drawer"
       >
         <v-list-item class="px-2">
           <v-list-item-avatar>
@@ -30,19 +31,21 @@
             @click="setActiveSection(data.title)"
           >
             <v-list-item-icon>
-              <v-icon>{{ data.icon }}</v-icon>
+              <v-icon color="#884D94">{{ data.icon }}</v-icon>
             </v-list-item-icon>
 
             <v-list-item-content>
-              <v-list-item-title>{{ data.title }}</v-list-item-title>
+              <v-list-item-title color="#884D94">{{
+                data.title
+              }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
-
       <v-card-text class="form-container">
         <template v-if="activeSection === 'Personal Information'">
           <h2>Edit your Personal Information</h2>
+          <p>Here you can change your personal Information.</p>
           <v-form>
             <v-text-field v-model="firstName" label="First name"></v-text-field>
             <v-text-field v-model="lastName" label="Last name"></v-text-field>
@@ -51,14 +54,21 @@
               type="email"
               label="Email"
             ></v-text-field>
-            <v-btn @click="saveChanges" color="primary">Save Changes</v-btn>
+            <v-btn
+              @click="saveChanges"
+              tile
+              class="save-changes-btn rounded-lg ma-5"
+              text
+              color="#FFFFFF"
+              >Save Changes</v-btn
+            >
           </v-form>
         </template>
         <template v-else-if="activeSection === 'Account Settings'">
           <h2>Edit Account Settings</h2>
-          <p>Here you can change your account settings,</p>
+          <p>Here you can change your account settings.</p>
 
-          <v-form class="form">
+          <v-form>
             <v-text-field
               v-model="password"
               label="Password"
@@ -82,21 +92,28 @@
               @change="handleFileUpload"
             ></v-file-input>
           </v-form>
-          <v-btn @click="saveAccountSettings" color="primary"
+          <v-btn
+            @click="saveAccountSettings"
+            tile
+            class="save-changes-btn rounded-lg"
+            text
+            color="#FFFFFF"
             >Save Changes</v-btn
           >
         </template>
         <template v-if="activeSection === 'Delete Account'">
-          <v-card>
-            <v-card-title>Delete Account</v-card-title>
-            <v-card-text>
-              Are you sure you want to delete your account?
-            </v-card-text>
+          <div class="delete-section">
+            <h2>Delete Account</h2>
+            <p>Are you sure you want to delete your account?</p>
             <v-card-actions>
-              <v-btn color="red" @click="deleteAccount">Yes</v-btn>
-              <v-btn text @click="cancelDeleteAccount">Cancel</v-btn>
+              <v-btn class="rounded-lg" color="#884D94" @click="deleteAccount"
+                >Yes</v-btn
+              >
+              <v-btn class="rounded-lg" @click="cancelDeleteAccount"
+                >Cancel</v-btn
+              >
             </v-card-actions>
-          </v-card>
+          </div>
         </template>
       </v-card-text>
     </v-card>
@@ -128,11 +145,11 @@ export default {
         { title: "Account Settings", icon: "mdi-cog" },
         { title: "Delete Account", icon: "mdi-delete" },
       ],
-      activeSection: null,
+      activeSection: "Personal Information",
     };
   },
   mounted() {
-    this.fetchUserData(); // Metoda za dohvaćanje podataka o korisniku prilikom stvaranja komponente
+    this.fetchUserData();
   },
   components: {
     BackgroundComponent,
@@ -195,11 +212,8 @@ export default {
           });
       }
     },
-    confirmDeleteAccount() {
-      this.activeRoute = "/delete";
-    },
     cancelDeleteAccount() {
-      this.showDeleteConfirmation = false;
+      this.activeSection = "Personal Information";
     },
     handleFileUpload(event) {
       if (
@@ -258,10 +272,23 @@ export default {
 </script>
 
 <style scoped>
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+}
 .profile-card {
-  max-height: 600px;
-  min-width: 500px;
-  margin-bottom: 200px;
+  margin-top: 50px;
+  min-height: 600px;
+  min-width: 400px;
+  margin-bottom: 100px;
+  padding: 5px 16px;
 }
 
 .form-container {
@@ -269,13 +296,28 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 450px;
+  overflow: auto;
+}
+.v-text-field {
+  width: 300px;
 }
 
-.form {
-  width: 100%;
-  max-width: 400px;
+.delete-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.delete-card {
-  margin-bottom: 30px;
+.save-changes-btn {
+  background-color: #581e64;
+  border: 1px solid #000;
+  padding: 10px 20px;
+  border-radius: 2px;
+  font-size: 13px;
+  cursor: pointer;
+  height: 35px;
+  width: 250px;
+  padding: 15px;
 }
 </style>

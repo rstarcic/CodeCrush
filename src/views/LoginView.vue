@@ -47,11 +47,40 @@
             >
           </v-form>
           <div class="password-class">
-            <v-btn text x-small color="blue">Forgot password?</v-btn>
+            <v-btn text x-small color="blue" @click="openPasswordResetDialog"
+              >Forgot password?</v-btn
+            >
           </div>
         </v-card>
       </v-col>
     </v-row>
+    <v-dialog v-model="isPasswordResetDialogOpen" max-width="500px">
+      <v-card>
+        <v-card-title class="login-text">Reset Password</v-card-title>
+        <v-card-text>
+          <v-form>
+            <v-text-field
+              v-model="resetEmail"
+              class="text-field"
+              type="email"
+              dense
+              outlined
+              label="Email"
+              placeholder="Enter your email"
+            ></v-text-field>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="PasswordResetEmail"
+            >Send Reset Email</v-btn
+          >
+          <v-btn color="primary" text @click="closePasswordResetDialog"
+            >Cancel</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -95,6 +124,8 @@ export default {
       email: "",
       password: "",
       IsPasswordShowed: false,
+      isPasswordResetDialogOpen: false,
+      resetEmail: "",
     };
   },
   components: {
@@ -115,6 +146,26 @@ export default {
     },
     IsIconPasswordToggled() {
       this.IsPasswordShowed = !this.IsPasswordShowed;
+    },
+    openPasswordResetDialog() {
+      this.isPasswordResetDialogOpen = true;
+    },
+    closePasswordResetDialog() {
+      this.isPasswordResetDialogOpen = false;
+    },
+    PasswordResetEmail() {
+      firebase
+        .auth()
+        .sendPasswordResetEmail(this.resetEmail)
+        .then(() => {
+          console.log("Password reset email sent!");
+        })
+        .catch((error) => {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          console.log("Eror code", errorCode);
+          console.log("Error message", errorMessage);
+        });
     },
   },
 };

@@ -8,7 +8,7 @@ import CSSView from '../views/CSSView.vue'
 import MarkdownView from '../views/MarkdownView.vue'
 import JavascriptView from '../views/JavascriptView.vue'
 import ProfileView from '../views/ProfileView.vue'
-
+import DropdownMenu from '../components/DropdownMenu.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -46,6 +46,10 @@ const routes = [
     path: '/javascript',
     name: 'javascript-view',
     component: JavascriptView
+  },
+  {
+    path: '/javascript/:title',
+    name: 'JavaScriptLesson',
   },
   {
     path: '/profile',

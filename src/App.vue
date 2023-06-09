@@ -67,15 +67,24 @@
         Get connected with us on social networks!
       </v-card-title>
       <div class="d-flex ml-auto">
-        <v-btn small class="social-button mr-2">
-          <v-icon class="social-icon" left>mdi-facebook</v-icon> Facebook
-        </v-btn>
-        <v-btn small class="social-button mr-2">
-          <v-icon class="social-icon" left>mdi-twitter</v-icon> Twitter
-        </v-btn>
-        <v-btn small class="social-button mr-2">
-          <v-icon class="social-icon" left>mdi-instagram</v-icon> Instagram
-        </v-btn>
+        <a
+          href="https://www.facebook.com/profile.php?id=100093481053524"
+          target="_blank"
+        >
+          <v-btn small class="social-button mr-2">
+            <v-icon class="social-icon" left>mdi-facebook</v-icon> Facebook
+          </v-btn>
+        </a>
+        <a href="https://twitter.com/LearnCodeCrush" target="_blank">
+          <v-btn small class="social-button mr-2">
+            <v-icon class="social-icon" left>mdi-twitter</v-icon> Twitter
+          </v-btn>
+        </a>
+        <a href="https://www.instagram.com/learncodecrush/" target="_blank">
+          <v-btn small class="social-button mr-2">
+            <v-icon class="social-icon" left>mdi-instagram</v-icon> Instagram
+          </v-btn>
+        </a>
       </div>
     </v-footer>
   </v-app>
