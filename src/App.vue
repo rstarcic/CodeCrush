@@ -24,6 +24,9 @@
       <v-btn color="#FFFFFF" text to="/markdown" v-if="isAuthenticated"
         >MARKDOWN</v-btn
       >
+      <v-btn color="#FFFFFF" text to="/favorites" v-if="isAuthenticated"
+      >Favorites</v-btn
+      >
       <v-spacer></v-spacer>
       <v-btn
         v-on:click="signOut"

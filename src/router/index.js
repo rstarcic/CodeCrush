@@ -8,6 +8,7 @@ import CSSView from '../views/CSSView.vue'
 import MarkdownView from '../views/MarkdownView.vue'
 import JavascriptView from '../views/JavascriptView.vue'
 import ProfileView from '../views/ProfileView.vue'
+import Favorites from '../views/Favorites.vue'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/login',
     name: 'login-view',
     component: LoginView
+  },
+  {
+    path: '/favorites',
+    name: '/favorites-view',
+    component: Favorites
   },
   {
     path: '/signup',
