@@ -9,6 +9,7 @@ import MarkdownView from '../views/MarkdownView.vue'
 import JavascriptView from '../views/JavascriptView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import Favorites from '../views/Favorites.vue'
+import LessonPage from '../components/LessonPage.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -38,14 +39,29 @@ const routes = [
     component: HTMLView
   },
   {
+    path: '/html/:title',
+    name: 'HTMLLesson',
+    component: LessonPage
+  },
+  {
     path: '/css',
     name: 'css-view',
     component: CSSView
   },
   {
+    path: '/css/:title',
+    name: 'CSSLesson',
+    component: LessonPage
+  },
+  {
     path: '/markdown',
     name: 'markdown-view',
     component: MarkdownView
+  },
+  {
+    path: '/markdown/:title',
+    name: 'MarkdownLesson',
+    component: LessonPage
   },
   {
     path: '/javascript',
@@ -55,6 +71,7 @@ const routes = [
   {
     path: '/javascript/:title',
     name: 'JavaScriptLesson',
+    component: LessonPage
   },
   {
     path: '/profile',

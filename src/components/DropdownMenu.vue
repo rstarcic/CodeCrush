@@ -9,7 +9,10 @@
       <v-list-item
         v-for="(title, id) in lessonTitles"
         :key="id"
-        @click="$router.push(`/${languageRoute}/${title}`)"
+        @click="
+          $router.currentRoute.path !== `/${languageRoute}/${title}` &&
+            $router.push(`/${languageRoute}/${title}`)
+        "
         class="lesson-item"
       >
         <v-list-item-title>{{ title }}</v-list-item-title>

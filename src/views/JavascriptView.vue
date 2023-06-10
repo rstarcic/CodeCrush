@@ -7,18 +7,6 @@
         :toolbarTitle="toolbarTitle"
         :languageRoute="languageRoute"
       />
-      <v-row align="center" justify="center" class="vrow">
-        <v-col class="text-center" cols="12">
-          <h1 class="text-h2 font-weight-thin mb-4">
-            {{ documentData.Title }}
-          </h1>
-          <h4 class="txth4">{{ documentData.Subtitle }}</h4>
-          <p>{{ documentData.Content }}</p>
-          <a :href="documentData.YouTubeURL" target="_blank"
-            >Watch on YouTube</a
-          >
-        </v-col>
-      </v-row>
     </v-container>
   </v-container>
 </template>
