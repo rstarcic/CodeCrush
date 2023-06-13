@@ -36,7 +36,6 @@ export default {
       const lessonTitles = [];
 
       querySnapshot.forEach((documentSnapshot) => {
-        debugger;
         const documentId = documentSnapshot.id;
         const documentData = documentSnapshot.data();
         const title = documentData.Title;

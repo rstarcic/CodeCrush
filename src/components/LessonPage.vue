@@ -7,9 +7,9 @@
       :languageRoute="languageRoute"
     />
     <v-container class="top-right-button">
-    <v-btn class="mx-2" fab dark small color="#581E64" @click="toggleIcon">
-      <v-icon>{{ icon }}</v-icon>
-    </v-btn>
+      <v-btn class="mx-2" fab dark small color="#581E64" @click="toggleIcon">
+        <v-icon>{{ icon }}</v-icon>
+      </v-btn>
     </v-container>
     <div class="lesson-container">
       <h1>{{ lessonData.Title }}</h1>
@@ -185,88 +185,99 @@ export default {
           };
         });
         // Provjera je li lekcija spremljena u favoritima
-    const userId = firebase.auth().currentUser.uid;
-    const favoritesRef = db.collection("users").doc(userId).collection("favorites");
-    const favoritesSnapshot = await favoritesRef.get();
-    let isLessonFavorite = false;
+        const userId = firebase.auth().currentUser.uid;
+        const favoritesRef = db
+          .collection("users")
+          .doc(userId)
+          .collection("favorites");
+        const favoritesSnapshot = await favoritesRef.get();
+        let isLessonFavorite = false;
 
-    favoritesSnapshot.forEach((doc) => {
-      const favoritesData = doc.data();
-      const myFavorites = favoritesData.myFavorites || [];
-      if (myFavorites.includes(lessonTitle)) {
-        isLessonFavorite = true;
-      }
-    });
+        favoritesSnapshot.forEach((doc) => {
+          const favoritesData = doc.data();
+          const myFavorites = favoritesData.myFavorites || [];
+          if (myFavorites.includes(lessonTitle)) {
+            isLessonFavorite = true;
+          }
+        });
 
-    if (isLessonFavorite) {
-      this.icon = "mdi-bookmark"; // Promjena ikone ako je lekcija spremljena
-    } else {
-      this.icon = "mdi-bookmark-outline"; // Vraćanje na početnu ikonu ako lekcija nije spremljena
-    }
+        if (isLessonFavorite) {
+          this.icon = "mdi-bookmark"; // Promjena ikone ako je lekcija spremljena
+        } else {
+          this.icon = "mdi-bookmark-outline"; // Vraćanje na početnu ikonu ako lekcija nije spremljena
+        }
       } catch (error) {
         console.error("Error fetching lesson data:", error);
       }
     },
     async toggleIcon() {
-  const db = firebase.firestore()
-  const userid = firebase.auth().currentUser.uid
-  const favoritesCollection = db.collection("users").doc(userid).collection("favorites")
+      const db = firebase.firestore();
+      const userid = firebase.auth().currentUser.uid;
+      const favoritesCollection = db
+        .collection("users")
+        .doc(userid)
+        .collection("favorites");
 
-  if (!this.isFavorited) {
-    this.icon = "mdi-bookmark";
-    this.isFavorited = true
-    favoritesCollection.add({
-      myFavorites: [this.lessonData.Title]
-    })
-  } else {
-    this.icon = "mdi-bookmark-outline";
-    this.isFavorited = false
-    const querySnapshot = await favoritesCollection.get()
-    querySnapshot.forEach(async (documentSnapshot) => {
-      const documentData = documentSnapshot.data()
-      if (documentData.hasOwnProperty('myFavorites')) {
-        if (documentData.myFavorites.includes(this.lessonData.Title)) {
-          const docRef = favoritesCollection.doc(documentSnapshot.id)
-          if (documentData.myFavorites.length === 1) {
-            // Ako je ovo jedini naslov u dokumentu, obrišite cijeli dokument
-            await docRef.delete()
-          } else {
-            // Inače, samo uklonite naslov iz polja
-            await docRef.update({
-              myFavorites: firebase.firestore.FieldValue.arrayRemove(this.lessonData.Title)
-            })
+      if (!this.isFavorited) {
+        this.icon = "mdi-bookmark";
+        this.isFavorited = true;
+        favoritesCollection.add({
+          myFavorites: [this.lessonData.Title],
+        });
+      } else {
+        this.icon = "mdi-bookmark-outline";
+        this.isFavorited = false;
+        const querySnapshot = await favoritesCollection.get();
+        querySnapshot.forEach(async (documentSnapshot) => {
+          const documentData = documentSnapshot.data();
+          if (documentData.hasOwnProperty("myFavorites")) {
+            if (documentData.myFavorites.includes(this.lessonData.Title)) {
+              const docRef = favoritesCollection.doc(documentSnapshot.id);
+              if (documentData.myFavorites.length === 1) {
+                // Ako je ovo jedini naslov u dokumentu, obrišite cijeli dokument
+                await docRef.delete();
+              } else {
+                // Inače, samo uklonite naslov iz polja
+                await docRef.update({
+                  myFavorites: firebase.firestore.FieldValue.arrayRemove(
+                    this.lessonData.Title
+                  ),
+                });
+              }
+            }
           }
-        }
+        });
       }
-    })
-  }
-},
-async checkIfFavorited() {
-  const db = firebase.firestore()
-  const userid = firebase.auth().currentUser.uid
-  const favoritesCollection = db.collection("users").doc(userid).collection("favorites")
+    },
+    async checkIfFavorited() {
+      const db = firebase.firestore();
+      const userid = firebase.auth().currentUser.uid;
+      const favoritesCollection = db
+        .collection("users")
+        .doc(userid)
+        .collection("favorites");
 
-  try {
-    this.icon = "mdi-bookmark-outline"
-    const querySnapshot = await favoritesCollection.get()
-    querySnapshot.forEach((documentSnapshot) => {
-      const documentData = documentSnapshot.data()
-      if (documentData.hasOwnProperty('myFavorites')) {
-        if (documentData.myFavorites.includes(this.lessonData.Title)) {
-          this.isFavorited = true
-          this.icon = "mdi-bookmark"
-        }
+      try {
+        this.icon = "mdi-bookmark-outline";
+        const querySnapshot = await favoritesCollection.get();
+        querySnapshot.forEach((documentSnapshot) => {
+          const documentData = documentSnapshot.data();
+          if (documentData.hasOwnProperty("myFavorites")) {
+            if (documentData.myFavorites.includes(this.lessonData.Title)) {
+              this.isFavorited = true;
+              this.icon = "mdi-bookmark";
+            }
+          }
+        });
+      } catch (error) {
+        console.error("Error fetching favorites data:", error);
       }
-    })
-  } catch (error) {
-    console.error("Error fetching favorites data:", error)
-  }
-},
-async mounted() {
-    await this.fetchLessonData();
-    await this.fetchLessonTitles();
-    await this.checkIfFavorited();
-},
+    },
+    async mounted() {
+      await this.fetchLessonData();
+      await this.fetchLessonTitles();
+      await this.checkIfFavorited();
+    },
   },
   watch: {
     $route() {
@@ -290,5 +301,11 @@ async mounted() {
   display: inline-block;
   width: 400px;
   border-radius: 0px;
+}
+
+.top-right-button {
+  position: absolute;
+  top: 10px;
+  left: 1300px;
 }
 </style>
