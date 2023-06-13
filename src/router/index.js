@@ -35,6 +35,7 @@ const routes = [
   },
   {
     path: '/html',
+    redirect: '/html/Introduction',
     name: 'html-view',
     component: HTMLView
   },

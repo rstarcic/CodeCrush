@@ -184,6 +184,7 @@ export default {
   watch: {
     $route() {
       this.fetchLessonData();
+      this.fetchLessonTitles();
     },
   },
 };
