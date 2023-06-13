@@ -6,6 +6,11 @@
       :toolbarTitle="toolbarTitle"
       :languageRoute="languageRoute"
     />
+    <v-container class="top-right-button">
+    <v-btn class="mx-2" fab dark small color="#581E64" @click="toggleIcon">
+      <v-icon>{{ icon }}</v-icon>
+    </v-btn>
+    </v-container>
     <div class="lesson-container">
       <h1>{{ lessonData.Title }}</h1>
       <h4>{{ lessonData.Subtitle }}</h4>
@@ -40,6 +45,8 @@ export default {
       lessonTitles: [],
       toolbarTitle: "",
       languageRoute: "",
+      icon: "mdi-bookmark-outline",
+      isFavorited: false,
     };
   },
   components: {
@@ -106,46 +113,129 @@ export default {
       }
     },
     async fetchLessonData() {
-      const lessonTitle = this.$route.params.title;
-      let collection;
+  const lessonTitle = this.$route.params.title;
+  let collection;
 
-      if (this.$route.path.includes("/javascript/")) {
-        collection = db.collection("javascript");
-      } else if (this.$route.path.includes("/html/")) {
-        collection = db.collection("html");
-      } else if (this.$route.path.includes("/css/")) {
-        collection = db.collection("css");
-      } else if (this.$route.path.includes("/markdown/")) {
-        collection = db.collection("markdown");
-      } else {
-        console.error("Collection is undefined");
-        return;
+  if (this.$route.path.includes("/javascript/")) {
+    collection = db.collection("javascript");
+  } else if (this.$route.path.includes("/html/")) {
+    collection = db.collection("html");
+  } else if (this.$route.path.includes("/css/")) {
+    collection = db.collection("css");
+  } else if (this.$route.path.includes("/markdown/")) {
+    collection = db.collection("markdown");
+  } else {
+    console.error("Collection is undefined");
+    return;
+  }
+
+  try {
+    const querySnapshot = await collection
+      .where("Title", "==", lessonTitle)
+      .get();
+
+    querySnapshot.forEach((doc) => {
+      const lessonData = doc.data();
+      this.lessonData = {
+        Title: lessonData.Title,
+        Subtitle: lessonData.Subtitle,
+        Content: lessonData.Content,
+        Content1: lessonData.Content1,
+        Content2: lessonData.Content2,
+        Example: lessonData.Example,
+        Example1: lessonData.Example1,
+        Example2: lessonData.Example2,
+        YouTubeURL: lessonData.YouTubeURL,
+      };
+    });
+
+    // Provjera je li lekcija spremljena u favoritima
+    const userId = firebase.auth().currentUser.uid;
+    const favoritesRef = db.collection("users").doc(userId).collection("favorites");
+    const favoritesSnapshot = await favoritesRef.get();
+    let isLessonFavorite = false;
+
+    favoritesSnapshot.forEach((doc) => {
+      const favoritesData = doc.data();
+      const myFavorites = favoritesData.myFavorites || [];
+      if (myFavorites.includes(lessonTitle)) {
+        isLessonFavorite = true;
       }
+    });
 
-      try {
-        const querySnapshot = await collection
-          .where("Title", "==", lessonTitle)
-          .get();
+    if (isLessonFavorite) {
+      this.icon = "mdi-bookmark"; // Promjena ikone ako je lekcija spremljena
+    } else {
+      this.icon = "mdi-bookmark-outline"; // Vraćanje na početnu ikonu ako lekcija nije spremljena
+    }
+  } catch (error) {
+    console.error("Error fetching lesson data:", error);
+  }
+},
 
-        querySnapshot.forEach((doc) => {
-          const lessonData = doc.data();
-          this.lessonData = {
-            Title: lessonData.Title,
-            Subtitle: lessonData.Subtitle,
-            Content: lessonData.Content,
-            Content1: lessonData.Content1,
-            Content2: lessonData.Content2,
-            Example: lessonData.Example,
-            Example1: lessonData.Example1,
-            Example2: lessonData.Example2,
-            YouTubeURL: lessonData.YouTubeURL,
-          };
-        });
-      } catch (error) {
-        console.error("Error fetching lesson data:", error);
+  async toggleIcon() {
+  const db = firebase.firestore()
+  const userid = firebase.auth().currentUser.uid
+  const favoritesCollection = db.collection("users").doc(userid).collection("favorites")
+
+  if (!this.isFavorited) {
+    this.icon = "mdi-bookmark";
+    this.isFavorited = true
+    favoritesCollection.add({
+      myFavorites: [this.lessonData.Title]
+    })
+  } else {
+    this.icon = "mdi-bookmark-outline";
+    this.isFavorited = false
+    const querySnapshot = await favoritesCollection.get()
+    querySnapshot.forEach(async (documentSnapshot) => {
+      const documentData = documentSnapshot.data()
+      if (documentData.hasOwnProperty('myFavorites')) {
+        if (documentData.myFavorites.includes(this.lessonData.Title)) {
+          const docRef = favoritesCollection.doc(documentSnapshot.id)
+          if (documentData.myFavorites.length === 1) {
+            // Ako je ovo jedini naslov u dokumentu, obrišite cijeli dokument
+            await docRef.delete()
+          } else {
+            // Inače, samo uklonite naslov iz polja
+            await docRef.update({
+              myFavorites: firebase.firestore.FieldValue.arrayRemove(this.lessonData.Title)
+            })
+          }
+        }
       }
-    },
+    })
+  }
+},
+async checkIfFavorited() {
+  const db = firebase.firestore()
+  const userid = firebase.auth().currentUser.uid
+  const favoritesCollection = db.collection("users").doc(userid).collection("favorites")
+
+  try {
+    this.icon = "mdi-bookmark-outline"
+    const querySnapshot = await favoritesCollection.get()
+    querySnapshot.forEach((documentSnapshot) => {
+      const documentData = documentSnapshot.data()
+      if (documentData.hasOwnProperty('myFavorites')) {
+        if (documentData.myFavorites.includes(this.lessonData.Title)) {
+          this.isFavorited = true
+          this.icon = "mdi-bookmark"
+        }
+      }
+    })
+  } catch (error) {
+    console.error("Error fetching favorites data:", error)
+  }
+},
+
+
   },
+  async mounted() {
+    await this.fetchLessonData();
+    await this.fetchLessonTitles();
+    await this.checkIfFavorited();
+},
   watch: {
     $route() {
       this.fetchLessonData();
@@ -165,5 +255,10 @@ export default {
 }
 .code-class {
   white-space: pre-wrap;
+}
+.top-right-button {
+    position: absolute;
+    top: 10px;
+    left: 1320px;
 }
 </style>
