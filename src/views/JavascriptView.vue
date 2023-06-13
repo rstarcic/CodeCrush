@@ -32,13 +32,11 @@ export default {
   },
   methods: {
     async getJSData() {
-      const querySnapshot = await db
-        .collection("javascript")
-        .orderBy("id", "asc")
-        .get();
+      const querySnapshot = await db.collection("javascript").get();
       const lessonTitles = [];
 
       querySnapshot.forEach((documentSnapshot) => {
+        debugger;
         const documentId = documentSnapshot.id;
         const documentData = documentSnapshot.data();
         const title = documentData.Title;
