@@ -14,13 +14,40 @@
     <div class="lesson-container">
       <h1>{{ lessonData.Title }}</h1>
       <h4>{{ lessonData.Subtitle }}</h4>
-      <p>{{ lessonData.Content }}</p>
-      <code class="code-class">{{ lessonData.Example }}</code>
-      <p>{{ lessonData.Content1 }}</p>
-      <code class="code-class">{{ lessonData.Example1 }}</code>
-      <p>{{ lessonData.Content2 }}</p>
-      <code class="code-class">{{ lessonData.Example2 }}</code>
-      <code>{{ lessonData.Example2 }}</code>
+      <p>{{ lessonData.IntroParagraph }}</p>
+      <h4 v-if="!lessonData.Subtitle1">Practice</h4>
+      <h4>{{ lessonData.Subtitle1 }}</h4>
+      <p>{{ lessonData.Paragraph1 }}</p>
+      <h4 v-if="lessonData.CodeExample1">Code example 1</h4>
+      <div
+        v-for="(example1, index) in lessonData.CodeExample1"
+        :key="'example1-' + index"
+      >
+        <code class="code-class">{{ example1 }}</code>
+      </div>
+      <h4 v-if="lessonData.CodeExplanation1">Code explanation</h4>
+      <p>{{ lessonData.CodeExplanation1 }}</p>
+      <p>{{ lessonData.Paragraph2 }}</p>
+      <h4 v-if="lessonData.CodeExample2">Code example 2</h4>
+      <div
+        v-for="(example2, index) in lessonData.CodeExample2"
+        :key="'example2-' + index"
+      >
+        <code class="code-class">{{ example2 }}</code>
+      </div>
+      <h4 v-if="lessonData.CodeExplanation2">Code explanation</h4>
+      <p>{{ lessonData.CodeExplanation2 }}</p>
+      <p>{{ lessonData.Paragraph3 }}</p>
+      <h4 v-if="lessonData.CodeExample3">Code example 3</h4>
+      <div
+        v-for="(example3, index) in lessonData.CodeExample3"
+        :key="'example3-' + index"
+      >
+        <code class="code-class">{{ example3 }}</code>
+      </div>
+      <h4 v-if="lessonData.CodeExplanation3">Code explanation</h4>
+      <p>{{ lessonData.CodeExplanation3 }}</p>
+      <h4>{{ lessonData.Subtitle2 }}</h4>
       <iframe
         width="500"
         height="315"
@@ -29,6 +56,8 @@
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
       ></iframe>
+      <h3 v-if="lessonData.ConclusionParagraph">What we have learned</h3>
+      <p>{{ lessonData.ConclusionParagraph }}</p>
     </div>
   </v-container>
 </template>
@@ -113,43 +142,49 @@ export default {
       }
     },
     async fetchLessonData() {
-  const lessonTitle = this.$route.params.title;
-  let collection;
+      const lessonTitle = this.$route.params.title;
+      let collection;
 
-  if (this.$route.path.includes("/javascript/")) {
-    collection = db.collection("javascript");
-  } else if (this.$route.path.includes("/html/")) {
-    collection = db.collection("html");
-  } else if (this.$route.path.includes("/css/")) {
-    collection = db.collection("css");
-  } else if (this.$route.path.includes("/markdown/")) {
-    collection = db.collection("markdown");
-  } else {
-    console.error("Collection is undefined");
-    return;
-  }
+      if (this.$route.path.includes("/javascript/")) {
+        collection = db.collection("javascript");
+      } else if (this.$route.path.includes("/html/")) {
+        collection = db.collection("html");
+      } else if (this.$route.path.includes("/css/")) {
+        collection = db.collection("css");
+      } else if (this.$route.path.includes("/markdown/")) {
+        collection = db.collection("markdown");
+      } else {
+        console.error("Collection is undefined");
+        return;
+      }
 
-  try {
-    const querySnapshot = await collection
-      .where("Title", "==", lessonTitle)
-      .get();
+      try {
+        const querySnapshot = await collection
+          .where("Title", "==", lessonTitle)
+          .get();
 
-    querySnapshot.forEach((doc) => {
-      const lessonData = doc.data();
-      this.lessonData = {
-        Title: lessonData.Title,
-        Subtitle: lessonData.Subtitle,
-        Content: lessonData.Content,
-        Content1: lessonData.Content1,
-        Content2: lessonData.Content2,
-        Example: lessonData.Example,
-        Example1: lessonData.Example1,
-        Example2: lessonData.Example2,
-        YouTubeURL: lessonData.YouTubeURL,
-      };
-    });
-
-    // Provjera je li lekcija spremljena u favoritima
+        querySnapshot.forEach((doc) => {
+          const lessonData = doc.data();
+          this.lessonData = {
+            Title: lessonData.Title,
+            Subtitle: lessonData.Subtitle,
+            IntroParagraph: lessonData.IntroParagraph,
+            Subtitle1: lessonData.Subtitle1,
+            Paragraph1: lessonData.Paragraph1,
+            CodeExample1: lessonData.CodeExample1,
+            CodeExplanation1: lessonData.CodeExplanation1,
+            Paragraph2: lessonData.Paragraph2,
+            CodeExample2: lessonData.CodeExample2,
+            CodeExplanation2: lessonData.CodeExplanation2,
+            Paragraph3: lessonData.Paragraph3,
+            CodeExample3: lessonData.CodeExample3,
+            CodeExplanation3: lessonData.CodeExplanation3,
+            Subtitle2: lessonData.Subtitle2,
+            YouTubeURL: lessonData.YouTubeURL,
+            ConclusionParagraph: lessonData.ConclusionParagraph,
+          };
+        });
+        // Provjera je li lekcija spremljena u favoritima
     const userId = firebase.auth().currentUser.uid;
     const favoritesRef = db.collection("users").doc(userId).collection("favorites");
     const favoritesSnapshot = await favoritesRef.get();
@@ -168,12 +203,11 @@ export default {
     } else {
       this.icon = "mdi-bookmark-outline"; // Vraćanje na početnu ikonu ako lekcija nije spremljena
     }
-  } catch (error) {
-    console.error("Error fetching lesson data:", error);
-  }
-},
-
-  async toggleIcon() {
+      } catch (error) {
+        console.error("Error fetching lesson data:", error);
+      }
+    },
+    async toggleIcon() {
   const db = firebase.firestore()
   const userid = firebase.auth().currentUser.uid
   const favoritesCollection = db.collection("users").doc(userid).collection("favorites")
@@ -228,17 +262,16 @@ async checkIfFavorited() {
     console.error("Error fetching favorites data:", error)
   }
 },
-
-
-  },
-  async mounted() {
+async mounted() {
     await this.fetchLessonData();
     await this.fetchLessonTitles();
     await this.checkIfFavorited();
 },
+  },
   watch: {
     $route() {
       this.fetchLessonData();
+      this.fetchLessonTitles();
     },
   },
 };
@@ -254,11 +287,8 @@ async checkIfFavorited() {
   margin: 0 auto;
 }
 .code-class {
-  white-space: pre-wrap;
-}
-.top-right-button {
-    position: absolute;
-    top: 10px;
-    left: 1320px;
+  display: inline-block;
+  width: 400px;
+  border-radius: 0px;
 }
 </style>
