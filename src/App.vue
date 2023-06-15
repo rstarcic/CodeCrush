@@ -25,7 +25,7 @@
         >MARKDOWN</v-btn
       >
       <v-btn color="#FFFFFF" text to="/favorites" v-if="isAuthenticated"
-      >Favorites</v-btn
+        >Favorites</v-btn
       >
       <v-spacer></v-spacer>
       <v-btn
@@ -158,6 +158,7 @@ export default {
   padding: 5px;
 }
 .v-footer {
+  height: 55px;
   position: fixed;
   bottom: 0;
   left: 0;

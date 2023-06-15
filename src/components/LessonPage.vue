@@ -15,11 +15,14 @@
       <h1>{{ lessonData.Title }}</h1>
       <h4>{{ lessonData.Subtitle }}</h4>
       <p>{{ lessonData.IntroParagraph }}</p>
-      <h4 v-if="!lessonData.Subtitle1">Practice</h4>
+      <div class="left-aligned-section">
+        <h4 v-if="!lessonData.Subtitle1">Practice</h4>
+      </div>
       <h4>{{ lessonData.Subtitle1 }}</h4>
       <p>{{ lessonData.Paragraph1 }}</p>
       <h4 v-if="lessonData.CodeExample1">Code example 1</h4>
       <div
+        class="text-left"
         v-for="(example1, index) in lessonData.CodeExample1"
         :key="'example1-' + index"
       >
@@ -56,7 +59,7 @@
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
       ></iframe>
-      <h3 v-if="lessonData.ConclusionParagraph">What we have learned</h3>
+      <h4 v-if="lessonData.ConclusionParagraph">What we have learned</h4>
       <p>{{ lessonData.ConclusionParagraph }}</p>
     </div>
   </v-container>
@@ -66,7 +69,6 @@
 import BackgroundComponent from "@/components/BackgroundComponent.vue";
 import DropdownMenu from "@/components/DropdownMenu.vue";
 import { auth, db, storage, firebase } from "../../firebase";
-import { code } from "../plugins/vuetify";
 export default {
   data() {
     return {
@@ -295,17 +297,38 @@ export default {
   align-items: center;
   justify-content: center;
   width: 50%;
-  margin: 0 auto;
+  margin: 30px auto;
+  margin-bottom: 50px;
+}
+.lesson-container h1 {
+  font-size: 26px;
+  color: #ffffff;
+}
+.lesson-container p {
+  font-size: 16px;
+  color: #ffffff;
+  padding-top: 15px;
+}
+.lesson-container h4 {
+  font-size: 18px;
+  padding-top: 10px;
+  color: #ffffff;
 }
 .code-class {
   display: inline-block;
   width: 400px;
+  padding: 3px;
   border-radius: 0px;
+  background-color: black;
+  color: #ffdf00 !important;
 }
 
 .top-right-button {
   position: absolute;
   top: 10px;
   left: 1300px;
+}
+.left-aligned-section code {
+  display: block;
 }
 </style>

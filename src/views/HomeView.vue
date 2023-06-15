@@ -14,7 +14,7 @@
       <v-row align="center" justify="center">
         <v-card
           v-for="info in information"
-          :key="info.aboutWebsite"
+          :key="info.id"
           elevation="2"
           class="info-cards"
         >
@@ -36,7 +36,7 @@
     <v-container fluid class="main-container">
       <v-card
         v-for="card in cards"
-        :key="card.title"
+        :key="card.id"
         elevation="2"
         class="mx-auto"
         max-width="700"
@@ -44,12 +44,18 @@
       >
         <v-row>
           <v-col cols="6">
-            <v-img :src="card.image" class="img-margin"></v-img>
+            <v-img
+              :src="card.Image"
+              accept="image/*"
+              class="img-margin"
+            ></v-img>
           </v-col>
           <v-col cols="6">
             <v-card-text>
-              <h2 style="margin-bottom: 10px">{{ card.title }}</h2>
-              <p class="description-text">{{ card.description }}</p>
+              <h2 class="title-text">
+                {{ card.Title }}
+              </h2>
+              <p class="description-text">{{ card.Description }}</p>
               <div class="learning-time">
                 <v-icon class="learning-time-icon">mdi-clock-outline</v-icon>
                 <span class="learning-time-text">{{ card.learningTime }}</span>
@@ -62,7 +68,7 @@
         </v-card>
       </v-card>
       <div class="rectangle">
-        <h1>Hey, you!</h1>
+        <h1 class="heading-class">Hey, you!</h1>
         <p>
           Picture this: you're sitting at your computer,
           <b>fingers poised on the keyboard</b>, ready to type your way into a
@@ -72,7 +78,7 @@
           <b>CodeCrush</b> comes to the rescue, ready to be your trusty guide in
           this awe-inspiring journey.
         </p>
-        <v-btn elevation="2" outlined class="signup-button" to="/signup"
+        <v-btn elevation="1" tile outlined class="signup-button" to="/signup"
           >Get Started</v-btn
         >
       </div>
@@ -86,8 +92,8 @@
         </v-row>
         <v-row class="letter-cards">
           <v-card
-            v-for="user in userOpinion"
-            :key="user.initials"
+            v-for="userOpinion in opinions"
+            :key="userOpinion.id"
             elevation="2"
             class="letter-card"
             color="yellow lighten-3"
@@ -95,9 +101,9 @@
             <v-col cols="12">
               <v-card-text>
                 <v-icon size="32" color="black">mdi-format-quote-open</v-icon>
-                <h2 class="letter-content">{{ user.opinion }}</h2>
+                <h2 class="letter-content">{{ userOpinion.opinion }}</h2>
                 <v-icon size="32" color="black">mdi-format-quote-close</v-icon>
-                <p class="letter-signature">{{ user.initials }}</p>
+                <p class="letter-signature">{{ userOpinion.initials }}</p>
               </v-card-text>
             </v-col>
           </v-card>
@@ -106,6 +112,99 @@
     </v-container>
   </div>
 </template>
+
+<script>
+import { db } from "../../firebase";
+export default {
+  name: "Home",
+  data() {
+    return {
+      cards: [],
+      cardData: {},
+      information: [],
+      infoData: {},
+      opinions: [],
+      opinionData: {},
+    };
+  },
+  methods: {
+    async loadData() {
+      try {
+        await this.fetchCards();
+        await this.fetchInfo();
+        await this.fetchOpinion();
+      } catch (error) {
+        console.log("Error fetching cards:", error);
+      }
+    },
+    async fetchOpinion() {
+      db.collection("opinion")
+        .orderBy("id", "asc")
+        .get()
+        .then((querySnapshot) => {
+          const opinions = [];
+          querySnapshot.forEach((doc) => {
+            const opinionData = doc.data();
+            const userOpinion = {
+              initials: opinionData.initials,
+              opinion: opinionData.opinion,
+            };
+            opinions.push(userOpinion);
+          });
+          this.opinions = opinions;
+        })
+        .catch((error) => {
+          console.log("Error fetching cards:", error);
+        });
+    },
+    async fetchInfo() {
+      db.collection("information")
+        .orderBy("id", "asc")
+        .get()
+        .then((querySnapshot) => {
+          const information = [];
+          querySnapshot.forEach((doc) => {
+            const infoData = doc.data();
+            const info = {
+              icon: infoData.icon,
+              aboutWebsite: infoData.aboutWebsite,
+            };
+            information.push(info);
+          });
+          this.information = information;
+        })
+        .catch((error) => {
+          console.log("Error fetching cards:", error);
+        });
+    },
+    async fetchCards() {
+      db.collection("cards")
+        .orderBy("id", "asc")
+        .get()
+        .then((querySnapshot) => {
+          const cards = [];
+          querySnapshot.forEach((doc) => {
+            const cardData = doc.data();
+            const card = {
+              Title: cardData.Title,
+              Description: cardData.Description,
+              Image: cardData.Image,
+              learningTime: cardData.learningTime,
+            };
+            cards.push(card);
+          });
+          this.cards = cards;
+        })
+        .catch((error) => {
+          console.log("Error fetching cards:", error);
+        });
+    },
+  },
+  mounted() {
+    this.loadData();
+  },
+};
+</script>
 
 <style>
 .main-container {
@@ -119,14 +218,14 @@
 }
 
 .subheading {
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 70;
   color: #ffffff;
 }
 
 .info-cards {
-  height: 200px;
-  width: 200px;
+  height: 170px;
+  width: 170px;
   border-radius: 20px;
   margin-right: 20px;
   padding: 15px 10px;
@@ -144,12 +243,15 @@
 
 .icon-up {
   margin-top: -15px;
-  color: #921946;
+  height: 15px;
+  margin-bottom: 5px !important;
+  font-size: 29px !important;
 }
 .info-text {
-  font-size: 16px;
+  font-size: 14px;
   margin: 0;
   color: #000000 !important;
+  line-height: 1.2;
 }
 
 .mx-auto {
@@ -158,10 +260,15 @@
 }
 
 .img-margin {
-  margin-top: 25px;
+  max-width: 500px;
+  margin-top: 55px;
   margin-left: 20px;
 }
 
+.title-text {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
 .learning-time {
   display: flex;
   align-items: center;
@@ -211,8 +318,8 @@
 }
 
 .signup-button {
-  background-color: white;
-  color: #000;
+  background-color: #581e64;
+  color: #ffffff !important;
   border: 1px solid #000;
   padding: 10px 20px;
   border-radius: 2px;
@@ -255,7 +362,7 @@
 }
 
 .heading {
-  font-size: 30px;
+  font-size: 28px;
   margin-bottom: 10px;
   color: #ffffff;
 }
@@ -263,83 +370,12 @@
 .letter-container {
   margin-top: 350px;
 }
+.heading-class {
+  font-size: 27px !important;
+}
+
+.rectangle p {
+  font-size: 18px !important;
+}
 </style>
 
-<script>
-export default {
-  name: "Home",
-  data() {
-    return {
-      cards: [
-        {
-          title: "HTML: The Language of Web Structure",
-          description:
-            "HTML (Hypertext Markup Language) forms the backbone of web pages, defining the structure and organization of content. Mastering HTML allows you to create well-structured websites with headings, paragraphs, images, and links. With HTML, you can create accessible and semantically meaningful web pages, improving user experience and search engine optimization.",
-          image:
-            "https://cdn.pixabay.com/photo/2017/07/31/14/45/code-2558220_960_720.jpg",
-          learningTime: "1-2 weeks",
-        },
-        {
-          title: "CSS: Bringing Style to the Web",
-          description:
-            "CSS (Cascading Style Sheets) is the language used to add visual styling and layout to HTML elements. Learning CSS enables you to apply colors, fonts, spacing, and responsive design to your web pages. With CSS, you can create stunning and professional-looking websites that adapt beautifully to different devices and screen sizes.",
-          image:
-            "https://cdn.pixabay.com/photo/2016/11/23/14/45/coding-1853305_960_720.jpg",
-          learningTime: "2-3 weeks",
-        },
-        {
-          title: "JavaScript: Powering Interactive Web Experiences",
-          description:
-            "JavaScript is a versatile programming language that adds interactivity and functionality to web pages. With JavaScript, you can create dynamic elements, handle user interactions, and build complex web applications. Learning JavaScript empowers you to create interactive forms, perform calculations, make API requests, and much more.",
-          image:
-            "https://cdn.pixabay.com/photo/2020/12/27/12/31/programmer-5863772_960_720.jpg",
-          learningTime: "4-6 weeks",
-        },
-        {
-          title: "Markdown: Simplifying Documentation",
-          description:
-            "Markdown is a lightweight markup language used for writing documentation, blog posts, and README files. With Markdown, you can format text, create headings, lists, tables, and insert images and links, all with simple syntax. Markdown is widely supported across platforms and can be easily converted to HTML, PDF, or other formats.",
-          image:
-            "https://d33wubrfki0l68.cloudfront.net/e3541891e3115642d605aca52e4556d397e95c6f/4e2ba/images/quicktourexample.png",
-          learningTime: "1-2 days",
-        },
-      ],
-      information: [
-        {
-          icon: "mdi-book",
-          aboutWebsite: "Use Top Learning Resources for Programming Languages.",
-        },
-        {
-          icon: "mdi-lightbulb",
-          aboutWebsite:
-            "Take valuable lessons in various programming languages.",
-        },
-        {
-          icon: "mdi-pencil",
-          aboutWebsite: "Take quizzes for each lesson.",
-        },
-        {
-          icon: "mdi-notebook-check",
-          aboutWebsite: "Crush the final exam for each programming language.",
-        },
-      ],
-      userOpinion: [
-        {
-          initials: "Olivila Wilson",
-          opinion:
-            "CodeCrush has been a true game-changer for me! The amount of progress I have made is mind-blowing.",
-        },
-        {
-          initials: "dr. Bruce Banner",
-          opinion: "HULK CRUSH!!",
-        },
-        {
-          initials: "Elon Musk",
-          opinion:
-            'CodeCrush is great. I Crushed my "Super Heavy" rocket with Markdown.',
-        },
-      ],
-    };
-  },
-};
-</script>

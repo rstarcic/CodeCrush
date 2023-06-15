@@ -54,14 +54,24 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-dialog v-model="isPasswordResetDialogOpen" max-width="500px">
-      <v-card>
+    <v-dialog
+      v-model="isPasswordResetDialogOpen"
+      max-width="450px"
+      outlined
+      persistent
+      class="dialog-class"
+    >
+      <v-card class="card-class">
         <v-card-title class="login-text">Reset Password</v-card-title>
+        <v-card-subtitle
+          >We will help you reset your password! An email will be on its way
+          shortly.</v-card-subtitle
+        >
         <v-card-text>
           <v-form>
             <v-text-field
               v-model="resetEmail"
-              class="text-field"
+              class="text-field email-field"
               type="email"
               dense
               outlined
@@ -72,10 +82,13 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="PasswordResetEmail"
+          <v-btn
+            class="rounded-lg reset-email-btn"
+            text
+            @click="PasswordResetEmail"
             >Send Reset Email</v-btn
           >
-          <v-btn color="primary" text @click="closePasswordResetDialog"
+          <v-btn color="red" text @click="closePasswordResetDialog"
             >Cancel</v-btn
           >
         </v-card-actions>
@@ -111,6 +124,21 @@
 .password-class {
   margin-bottom: 15px;
   margin-top: 10px;
+}
+.card-class {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 20px;
+}
+.email-field {
+  margin-left: 25px !important;
+  max-width: 300px;
+}
+.reset-email-btn {
+  background-color: #884d94;
+  color: #ffffff !important;
 }
 </style>
 

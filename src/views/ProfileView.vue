@@ -85,6 +85,7 @@
               type="password"
             ></v-text-field>
             <v-file-input
+              prepend-icon="mdi-camera"
               v-model="avatar"
               type="file"
               label="Profile Image"
@@ -106,10 +107,13 @@
             <h2>Delete Account</h2>
             <p>Are you sure you want to delete your account?</p>
             <v-card-actions>
-              <v-btn class="rounded-lg" color="#884D94" @click="deleteAccount"
+              <v-btn
+                class="rounded-lg confirm-btn"
+                color="#884D94"
+                @click="deleteAccount"
                 >Yes</v-btn
               >
-              <v-btn class="rounded-lg" @click="cancelDeleteAccount"
+              <v-btn class="rounded-lg cancel-btn" @click="cancelDeleteAccount"
                 >Cancel</v-btn
               >
             </v-card-actions>
@@ -319,5 +323,11 @@ export default {
   height: 35px;
   width: 250px;
   padding: 15px;
+}
+.confirm-btn {
+  color: #ffffff;
+}
+.cancel-btn {
+  color: red;
 }
 </style>
