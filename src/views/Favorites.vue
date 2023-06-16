@@ -28,23 +28,27 @@ import BackgroundComponent from "../components/BackgroundComponent.vue";
 import { auth, db, storage, firebase } from "../../firebase";
 
 export default {
-  data(){
-    return{
-      myFavorites: []
-    }
+  data() {
+    return {
+      myFavorites: [],
+    };
   },
-  mounted(){
-    const db = firebase.firestore()
-    const userid = firebase.auth().currentUser.uid
-    const favoritesRef = db.collection("users").doc(userid).collection("favorites").doc("SvsPITUYmTu7I6BYCmYm")
-    favoritesRef.get().then((doc)=>{
-      const dataArray = []
-      const data = doc.data()
+  mounted() {
+    const db = firebase.firestore();
+    const userid = firebase.auth().currentUser.uid;
+    const favoritesRef = db
+      .collection("users")
+      .doc(userid)
+      .collection("favorites")
+      .doc("SvsPITUYmTu7I6BYCmYm");
+    favoritesRef.get().then((doc) => {
+      const dataArray = [];
+      const data = doc.data();
       dataArray.push({
-        myFavorites: data.myFavorites
-      })
-      this.myFavorites = dataArray
-    })
+        myFavorites: data.myFavorites,
+      });
+      this.myFavorites = dataArray;
+    });
   },
   components: {
     BackgroundComponent,

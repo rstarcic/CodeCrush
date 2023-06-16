@@ -15,9 +15,7 @@
       <h1>{{ lessonData.Title }}</h1>
       <h4>{{ lessonData.Subtitle }}</h4>
       <p>{{ lessonData.IntroParagraph }}</p>
-      <div class="left-aligned-section">
-        <h4 v-if="!lessonData.Subtitle1">Practice</h4>
-      </div>
+      <h4 v-if="!lessonData.Subtitle1">Practice</h4>
       <h4>{{ lessonData.Subtitle1 }}</h4>
       <p>{{ lessonData.Paragraph1 }}</p>
       <h4 v-if="lessonData.CodeExample1">Code example 1</h4>
@@ -28,8 +26,15 @@
       >
         <code class="code-class">{{ example1 }}</code>
       </div>
-      <h4 v-if="lessonData.CodeExplanation1">Code explanation</h4>
-      <p>{{ lessonData.CodeExplanation1 }}</p>
+      <v-card class="explanation-card" v-if="lessonData.CodeExplanation1">
+        <v-icon class="icon-explanation-title" color="#ffdf00"
+          >mdi-lightbulb</v-icon
+        >
+        <h4>Code explanation</h4>
+        <p>
+          {{ lessonData.CodeExplanation1 }}
+        </p>
+      </v-card>
       <p>{{ lessonData.Paragraph2 }}</p>
       <h4 v-if="lessonData.CodeExample2">Code example 2</h4>
       <div
@@ -38,8 +43,15 @@
       >
         <code class="code-class">{{ example2 }}</code>
       </div>
-      <h4 v-if="lessonData.CodeExplanation2">Code explanation</h4>
-      <p>{{ lessonData.CodeExplanation2 }}</p>
+      <v-card class="explanation-card" v-if="lessonData.CodeExplanation2">
+        <v-icon class="icon-explanation-title" color="#ffdf00"
+          >mdi-lightbulb</v-icon
+        >
+        <h4>Code explanation</h4>
+        <p>
+          {{ lessonData.CodeExplanation2 }}
+        </p>
+      </v-card>
       <p>{{ lessonData.Paragraph3 }}</p>
       <h4 v-if="lessonData.CodeExample3">Code example 3</h4>
       <div
@@ -48,8 +60,15 @@
       >
         <code class="code-class">{{ example3 }}</code>
       </div>
-      <h4 v-if="lessonData.CodeExplanation3">Code explanation</h4>
-      <p>{{ lessonData.CodeExplanation3 }}</p>
+      <v-card class="explanation-card" v-if="lessonData.CodeExplanation3">
+        <v-icon class="icon-explanation-title" color="#ffdf00"
+          >mdi-lightbulb</v-icon
+        >
+        <h4>Code explanation</h4>
+        <p>
+          {{ lessonData.CodeExplanation3 }}
+        </p>
+      </v-card>
       <h4>{{ lessonData.Subtitle2 }}</h4>
       <iframe
         width="500"
@@ -87,6 +106,7 @@ export default {
   async mounted() {
     await this.fetchLessonData();
     await this.fetchLessonTitles();
+    await this.checkIfFavorited();
   },
   computed: {
     youtubeEmbedUrl() {
@@ -223,8 +243,9 @@ export default {
       if (!this.isFavorited) {
         this.icon = "mdi-bookmark";
         this.isFavorited = true;
-        favoritesCollection.add({
-          myFavorites: [this.lessonData.Title],
+        favoritesRef.add({
+          language: this.languageRoute, // Spremanje parametra jezika
+          title: this.lessonData.Title, // Spremanje parametra naslova lekcije
         });
       } else {
         this.icon = "mdi-bookmark-outline";
@@ -275,11 +296,6 @@ export default {
         console.error("Error fetching favorites data:", error);
       }
     },
-    async mounted() {
-      await this.fetchLessonData();
-      await this.fetchLessonTitles();
-      await this.checkIfFavorited();
-    },
   },
   watch: {
     $route() {
@@ -311,7 +327,8 @@ export default {
 }
 .lesson-container h4 {
   font-size: 18px;
-  padding-top: 10px;
+  padding-top: 8px;
+  padding-bottom: 5px;
   color: #ffffff;
 }
 .code-class {
@@ -328,7 +345,17 @@ export default {
   top: 10px;
   left: 1300px;
 }
-.left-aligned-section code {
-  display: block;
+.explanation-card {
+  margin: 15px 0;
+  padding: 15px;
+  background-color: #581e64;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: auto;
+  color: pink;
+}
+.icon-explanation-title {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

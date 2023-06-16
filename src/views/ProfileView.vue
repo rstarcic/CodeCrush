@@ -31,7 +31,7 @@
             @click="setActiveSection(data.title)"
           >
             <v-list-item-icon>
-              <v-icon color="#884D94">{{ data.icon }}</v-icon>
+              <v-icon :color="getIconColor(data.title)">{{ data.icon }}</v-icon>
             </v-list-item-icon>
 
             <v-list-item-content>
@@ -270,6 +270,9 @@ export default {
           console.error("Error updating account settings:", error);
         }
       }
+    },
+    getIconColor(sectionTitle) {
+      return this.activeSection === sectionTitle ? "#E8DE2A" : "#884D94";
     },
   },
 };
