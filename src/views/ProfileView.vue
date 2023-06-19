@@ -248,7 +248,7 @@ export default {
             console.error("Error updating password:", error);
           }
         }
-        if (this.avatar) {
+        if (this.avatar && this.avatar instanceof File) {
           try {
             const storageRef = storage.ref();
             const imageRef = storageRef.child(`profile-images/${userId}`);
@@ -258,6 +258,7 @@ export default {
             console.log("Profile image uploaded successfully!");
             await userRef.update({ avatar: imageUrl });
             console.log("Avatar URL updated in Firestore!");
+            this.avatar = imageUrl;
           } catch (error) {
             console.error("Error updating profile image:", error);
           }
