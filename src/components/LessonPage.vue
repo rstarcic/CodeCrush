@@ -20,13 +20,21 @@
       <p>{{ lessonData.Paragraph1 }}</p>
       <h4 v-if="lessonData.CodeExample1">Code example 1</h4>
       <div
+        class="text-left"
         v-for="(example1, index) in lessonData.CodeExample1"
         :key="'example1-' + index"
       >
         <code class="code-class">{{ example1 }}</code>
       </div>
-      <h4 v-if="lessonData.CodeExplanation1">Code explanation</h4>
-      <p>{{ lessonData.CodeExplanation1 }}</p>
+      <v-card class="explanation-card" v-if="lessonData.CodeExplanation1">
+        <v-icon class="icon-explanation-title" color="#ffdf00"
+          >mdi-lightbulb</v-icon
+        >
+        <h4>Code explanation</h4>
+        <p>
+          {{ lessonData.CodeExplanation1 }}
+        </p>
+      </v-card>
       <p>{{ lessonData.Paragraph2 }}</p>
       <h4 v-if="lessonData.CodeExample2">Code example 2</h4>
       <div
@@ -35,8 +43,15 @@
       >
         <code class="code-class">{{ example2 }}</code>
       </div>
-      <h4 v-if="lessonData.CodeExplanation2">Code explanation</h4>
-      <p>{{ lessonData.CodeExplanation2 }}</p>
+      <v-card class="explanation-card" v-if="lessonData.CodeExplanation2">
+        <v-icon class="icon-explanation-title" color="#ffdf00"
+          >mdi-lightbulb</v-icon
+        >
+        <h4>Code explanation</h4>
+        <p>
+          {{ lessonData.CodeExplanation2 }}
+        </p>
+      </v-card>
       <p>{{ lessonData.Paragraph3 }}</p>
       <h4 v-if="lessonData.CodeExample3">Code example 3</h4>
       <div
@@ -45,8 +60,15 @@
       >
         <code class="code-class">{{ example3 }}</code>
       </div>
-      <h4 v-if="lessonData.CodeExplanation3">Code explanation</h4>
-      <p>{{ lessonData.CodeExplanation3 }}</p>
+      <v-card class="explanation-card" v-if="lessonData.CodeExplanation3">
+        <v-icon class="icon-explanation-title" color="#ffdf00"
+          >mdi-lightbulb</v-icon
+        >
+        <h4>Code explanation</h4>
+        <p>
+          {{ lessonData.CodeExplanation3 }}
+        </p>
+      </v-card>
       <h4>{{ lessonData.Subtitle2 }}</h4>
       <iframe
         width="500"
@@ -56,7 +78,7 @@
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
       ></iframe>
-      <h3 v-if="lessonData.ConclusionParagraph">What we have learned</h3>
+      <h4 v-if="lessonData.ConclusionParagraph">What we have learned</h4>
       <p>{{ lessonData.ConclusionParagraph }}</p>
     </div>
   </v-container>
@@ -66,7 +88,6 @@
 import BackgroundComponent from "@/components/BackgroundComponent.vue";
 import DropdownMenu from "@/components/DropdownMenu.vue";
 import { auth, db, storage, firebase } from "../../firebase";
-import { code } from "../plugins/vuetify";
 export default {
   data() {
     return {
@@ -85,6 +106,7 @@ export default {
   async mounted() {
     await this.fetchLessonData();
     await this.fetchLessonTitles();
+    await this.checkIfFavorited();
   },
   computed: {
     youtubeEmbedUrl() {
@@ -222,30 +244,18 @@ export default {
         this.icon = "mdi-bookmark";
         this.isFavorited = true;
         favoritesCollection.add({
-          myFavorites: [this.lessonData.Title],
+          language: this.languageRoute,
+          title: this.lessonData.Title,
         });
       } else {
         this.icon = "mdi-bookmark-outline";
         this.isFavorited = false;
-        const querySnapshot = await favoritesCollection.get();
+        const querySnapshot = await favoritesCollection
+          .where("title", "==", this.lessonData.Title)
+          .get();
         querySnapshot.forEach(async (documentSnapshot) => {
-          const documentData = documentSnapshot.data();
-          if (documentData.hasOwnProperty("myFavorites")) {
-            if (documentData.myFavorites.includes(this.lessonData.Title)) {
-              const docRef = favoritesCollection.doc(documentSnapshot.id);
-              if (documentData.myFavorites.length === 1) {
-                // Ako je ovo jedini naslov u dokumentu, obrišite cijeli dokument
-                await docRef.delete();
-              } else {
-                // Inače, samo uklonite naslov iz polja
-                await docRef.update({
-                  myFavorites: firebase.firestore.FieldValue.arrayRemove(
-                    this.lessonData.Title
-                  ),
-                });
-              }
-            }
-          }
+          const docRef = favoritesCollection.doc(documentSnapshot.id);
+          await docRef.delete();
         });
       }
     },
@@ -258,25 +268,20 @@ export default {
         .collection("favorites");
 
       try {
-        this.icon = "mdi-bookmark-outline";
-        const querySnapshot = await favoritesCollection.get();
-        querySnapshot.forEach((documentSnapshot) => {
-          const documentData = documentSnapshot.data();
-          if (documentData.hasOwnProperty("myFavorites")) {
-            if (documentData.myFavorites.includes(this.lessonData.Title)) {
-              this.isFavorited = true;
-              this.icon = "mdi-bookmark";
-            }
-          }
-        });
+        const querySnapshot = await favoritesCollection
+          .where("title", "==", this.lessonData.Title)
+          .get();
+
+        if (!querySnapshot.empty) {
+          this.isFavorited = true;
+          this.icon = "mdi-bookmark";
+        } else {
+          this.isFavorited = false;
+          this.icon = "mdi-bookmark-outline";
+        }
       } catch (error) {
         console.error("Error fetching favorites data:", error);
       }
-    },
-    async mounted() {
-      await this.fetchLessonData();
-      await this.fetchLessonTitles();
-      await this.checkIfFavorited();
     },
   },
   watch: {
@@ -295,17 +300,49 @@ export default {
   align-items: center;
   justify-content: center;
   width: 50%;
-  margin: 0 auto;
+  margin: 30px auto;
+  margin-bottom: 50px;
+}
+.lesson-container h1 {
+  font-size: 26px;
+  color: #ffffff;
+}
+.lesson-container p {
+  font-size: 16px;
+  color: #ffffff;
+  padding-top: 15px;
+}
+.lesson-container h4 {
+  font-size: 18px;
+  padding-top: 8px;
+  padding-bottom: 5px;
+  color: #ffffff;
 }
 .code-class {
   display: inline-block;
   width: 400px;
+  padding: 3px;
   border-radius: 0px;
+  background-color: black;
+  color: #ffdf00 !important;
 }
 
 .top-right-button {
   position: absolute;
   top: 10px;
   left: 1300px;
+}
+.explanation-card {
+  margin: 15px 0;
+  padding: 15px;
+  background-color: #581e64;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: auto;
+  color: pink;
+}
+.icon-explanation-title {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

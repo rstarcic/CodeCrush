@@ -31,7 +31,7 @@
             @click="setActiveSection(data.title)"
           >
             <v-list-item-icon>
-              <v-icon color="#884D94">{{ data.icon }}</v-icon>
+              <v-icon :color="getIconColor(data.title)">{{ data.icon }}</v-icon>
             </v-list-item-icon>
 
             <v-list-item-content>
@@ -85,6 +85,7 @@
               type="password"
             ></v-text-field>
             <v-file-input
+              prepend-icon="mdi-camera"
               v-model="avatar"
               type="file"
               label="Profile Image"
@@ -106,10 +107,13 @@
             <h2>Delete Account</h2>
             <p>Are you sure you want to delete your account?</p>
             <v-card-actions>
-              <v-btn class="rounded-lg" color="#884D94" @click="deleteAccount"
+              <v-btn
+                class="rounded-lg confirm-btn"
+                color="#884D94"
+                @click="deleteAccount"
                 >Yes</v-btn
               >
-              <v-btn class="rounded-lg" @click="cancelDeleteAccount"
+              <v-btn class="rounded-lg cancel-btn" @click="cancelDeleteAccount"
                 >Cancel</v-btn
               >
             </v-card-actions>
@@ -244,7 +248,7 @@ export default {
             console.error("Error updating password:", error);
           }
         }
-        if (this.avatar) {
+        if (this.avatar && this.avatar instanceof File) {
           try {
             const storageRef = storage.ref();
             const imageRef = storageRef.child(`profile-images/${userId}`);
@@ -254,6 +258,7 @@ export default {
             console.log("Profile image uploaded successfully!");
             await userRef.update({ avatar: imageUrl });
             console.log("Avatar URL updated in Firestore!");
+            this.avatar = imageUrl;
           } catch (error) {
             console.error("Error updating profile image:", error);
           }
@@ -266,6 +271,9 @@ export default {
           console.error("Error updating account settings:", error);
         }
       }
+    },
+    getIconColor(sectionTitle) {
+      return this.activeSection === sectionTitle ? "#E8DE2A" : "#884D94";
     },
   },
 };
@@ -319,5 +327,11 @@ export default {
   height: 35px;
   width: 250px;
   padding: 15px;
+}
+.confirm-btn {
+  color: #ffffff;
+}
+.cancel-btn {
+  color: red;
 }
 </style>

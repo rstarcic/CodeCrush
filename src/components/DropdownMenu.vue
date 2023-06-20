@@ -11,8 +11,10 @@
         :key="id"
         @click="
           $router.currentRoute.path !== `/${languageRoute}/${title}` &&
-            $router.push(`/${languageRoute}/${title}`)
+            $router.push(`/${languageRoute}/${title}`);
+          selectedLesson = title;
         "
+        :class="isSelectedLesson(title)"
         class="lesson-item"
       >
         <v-list-item-title>{{ title }}</v-list-item-title>
@@ -36,6 +38,13 @@ export default {
     languageRoute: {
       type: String,
       required: true,
+    },
+  },
+  methods: {
+    isSelectedLesson(title) {
+      return {
+        "selected-lesson": title === this.selectedLesson,
+      };
     },
   },
 };
@@ -62,5 +71,9 @@ export default {
 }
 .lesson-item {
   color: #ffffff !important;
+}
+.selected-lesson {
+  background-color: #e8de2a;
+  color: #000000 !important;
 }
 </style>

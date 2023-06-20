@@ -210,11 +210,15 @@ export default {
           );
           const token = credential.accessToken;
           const user = result.user;
+          console.log("Token:", token);
+          console.log("User:", user);
+          console.log("Sign-in with Google successful");
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           const email = error.email;
+          console.log("Sign-in with Google failed:", errorCode, errorMessage);
           const credential = firebase.auth.GoogleAuthProvider.credential(
             error.credential.idToken,
             error.credential.accessToken
