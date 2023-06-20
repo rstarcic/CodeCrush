@@ -178,4 +178,4 @@ export default {
 .social-icon {
   color: #4b408b !important;
 }
-</style> 
+</style>

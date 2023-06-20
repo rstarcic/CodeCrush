@@ -243,32 +243,19 @@ export default {
       if (!this.isFavorited) {
         this.icon = "mdi-bookmark";
         this.isFavorited = true;
-        favoritesRef.add({
-          language: this.languageRoute, // Spremanje parametra jezika
-          title: this.lessonData.Title, // Spremanje parametra naslova lekcije
+        favoritesCollection.add({
+          language: this.languageRoute,
+          title: this.lessonData.Title,
         });
       } else {
         this.icon = "mdi-bookmark-outline";
         this.isFavorited = false;
-        const querySnapshot = await favoritesCollection.get();
+        const querySnapshot = await favoritesCollection
+          .where("title", "==", this.lessonData.Title)
+          .get();
         querySnapshot.forEach(async (documentSnapshot) => {
-          const documentData = documentSnapshot.data();
-          if (documentData.hasOwnProperty("myFavorites")) {
-            if (documentData.myFavorites.includes(this.lessonData.Title)) {
-              const docRef = favoritesCollection.doc(documentSnapshot.id);
-              if (documentData.myFavorites.length === 1) {
-                // Ako je ovo jedini naslov u dokumentu, obrišite cijeli dokument
-                await docRef.delete();
-              } else {
-                // Inače, samo uklonite naslov iz polja
-                await docRef.update({
-                  myFavorites: firebase.firestore.FieldValue.arrayRemove(
-                    this.lessonData.Title
-                  ),
-                });
-              }
-            }
-          }
+          const docRef = favoritesCollection.doc(documentSnapshot.id);
+          await docRef.delete();
         });
       }
     },
@@ -281,17 +268,17 @@ export default {
         .collection("favorites");
 
       try {
-        this.icon = "mdi-bookmark-outline";
-        const querySnapshot = await favoritesCollection.get();
-        querySnapshot.forEach((documentSnapshot) => {
-          const documentData = documentSnapshot.data();
-          if (documentData.hasOwnProperty("myFavorites")) {
-            if (documentData.myFavorites.includes(this.lessonData.Title)) {
-              this.isFavorited = true;
-              this.icon = "mdi-bookmark";
-            }
-          }
-        });
+        const querySnapshot = await favoritesCollection
+          .where("title", "==", this.lessonData.Title)
+          .get();
+
+        if (!querySnapshot.empty) {
+          this.isFavorited = true;
+          this.icon = "mdi-bookmark";
+        } else {
+          this.isFavorited = false;
+          this.icon = "mdi-bookmark-outline";
+        }
       } catch (error) {
         console.error("Error fetching favorites data:", error);
       }
