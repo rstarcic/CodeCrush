@@ -224,9 +224,9 @@ export default {
         });
 
         if (isLessonFavorite) {
-          this.icon = "mdi-bookmark"; // Promjena ikone ako je lekcija spremljena
+          this.icon = "mdi-bookmark";
         } else {
-          this.icon = "mdi-bookmark-outline"; // Vraćanje na početnu ikonu ako lekcija nije spremljena
+          this.icon = "mdi-bookmark-outline"; 
         }
       } catch (error) {
         console.error("Error fetching lesson data:", error);

@@ -42,10 +42,10 @@ export default {
   data() {
     return {
       toolbarTitle: "Favorites",
-      titleFavorites: [], // Array to store favorite titles
-      myFavoritesData: [], // Array to store favorite data objects
-      language: "", // Add the language property
-      selectedLesson: "", // Add the selectedLesson property
+      titleFavorites: [], 
+      myFavoritesData: [], 
+      language: "", 
+      selectedLesson: "", 
     };
   },
   components: {

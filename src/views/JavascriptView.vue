@@ -48,11 +48,6 @@ export default {
     catch(error) {
       console.error(error);
     },
-    //1. idi po podatke
-    //koje? -
-    //kako?
-    //2. kada podaci stignu, pripremi ih za prikaz
-    //kako?
   },
 };
 </script>
