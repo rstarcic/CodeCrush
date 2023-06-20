@@ -38,7 +38,7 @@
               outlined
               label="Password"
               placeholder="Enter your password"
-              hint="At least 8 characters"
+              hint="At least 8 characters, 1 number and 1 special sign"
               :type="IsPasswordShowed ? 'text' : 'password'"
             >
               <template v-slot:append>
