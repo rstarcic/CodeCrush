@@ -24,7 +24,7 @@
           <h1 class="text-h2 font-weight-thin mb-4">Favorites</h1>
           <h4 class="txth4">Choose your favorite lectures!</h4>
           <h5 class="txth5">
-            Here You can see all lessons that You choose as Your favorites
+            Here You can see all lessons that You chose as Your favorites
           </h5>
         </v-col>
       </v-row>
@@ -42,10 +42,10 @@ export default {
   data() {
     return {
       toolbarTitle: "Favorites",
-      titleFavorites: [], 
-      myFavoritesData: [], 
-      language: "", 
-      selectedLesson: "", 
+      titleFavorites: [],
+      myFavoritesData: [],
+      language: "",
+      selectedLesson: "",
     };
   },
   components: {
@@ -92,16 +92,22 @@ export default {
       };
     },
     selectLesson(language, title) {
-      this.language = language; 
-      this.selectedLesson = title;
-      console.log("Language: ", this.language);
-      console.log("Title: ", this.selectedLesson);
-      const route = this.getLessonRoute(this.language, this.selectedLesson);
-      if (route) {
-        const params = { language: this.language };
-        this.$router.push({ path: route, params });
-      } else {
-        console.error("Invalid language: ", this.language);
+      const selectedLesson = this.myFavoritesData.find(
+        (lesson) => lesson.title === title
+      );
+
+      if (selectedLesson) {
+        this.language = selectedLesson.language;
+        this.selectedLesson = title;
+        console.log("Language: ", this.language);
+        console.log("Title: ", this.selectedLesson);
+        const route = this.getLessonRoute(this.language, this.selectedLesson);
+        if (route) {
+          const params = { language: this.language };
+          this.$router.push({ path: route, params });
+        } else {
+          console.error("Invalid language: ", this.language);
+        }
       }
     },
     getLessonRoute(language, title) {

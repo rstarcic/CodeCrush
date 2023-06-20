@@ -53,6 +53,7 @@
               v-model="email"
               type="email"
               label="Email"
+              :rules="rules.email"
             ></v-text-field>
             <v-btn
               @click="saveChanges"
@@ -150,6 +151,13 @@ export default {
         { title: "Delete Account", icon: "mdi-delete" },
       ],
       activeSection: "Personal Information",
+      rules: {
+        email: [
+          (v) =>
+            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+            "Email must be valid",
+        ],
+      },
     };
   },
   mounted() {

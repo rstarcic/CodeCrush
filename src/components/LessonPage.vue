@@ -225,7 +225,7 @@ export default {
         if (isLessonFavorite) {
           this.icon = "mdi-bookmark";
         } else {
-          this.icon = "mdi-bookmark-outline"; 
+          this.icon = "mdi-bookmark-outline";
         }
       } catch (error) {
         console.error("Error fetching lesson data:", error);

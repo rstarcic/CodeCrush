@@ -35,7 +35,7 @@ const routes = [
   },
   {
     path: '/html',
-    redirect: '/html/Introduction HTML',
+    redirect: '/html/Introduction to HTML',
     name: 'html-view',
     component: HTMLView
   },
@@ -46,7 +46,7 @@ const routes = [
   },
   {
     path: '/css',
-    redirect: '/css/Introduction CSS',
+    redirect: '/css/Introduction to CSS',
     name: 'css-view',
     component: CSSView
   },
@@ -57,7 +57,7 @@ const routes = [
   },
   {
     path: '/markdown',
-    redirect: '/markdown/Introduction MD',
+    redirect: '/markdown/Introduction to MD',
     name: 'markdown-view',
     component: MarkdownView
   },
@@ -68,7 +68,7 @@ const routes = [
   },
   {
     path: '/javascript',
-    redirect: '/javascript/Introduction JS',
+    redirect: '/javascript/Introduction to JS',
     name: 'javascript-view',
     component: JavascriptView
   },
