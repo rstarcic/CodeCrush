@@ -206,7 +206,6 @@ export default {
             ConclusionParagraph: lessonData.ConclusionParagraph,
           };
         });
-        // Provjera je li lekcija spremljena u favoritima
         const userId = firebase.auth().currentUser.uid;
         const favoritesRef = db
           .collection("users")

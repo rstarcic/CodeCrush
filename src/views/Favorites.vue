@@ -23,7 +23,7 @@
         <v-col class="text-center" cols="12">
           <h1 class="text-h2 font-weight-thin mb-4">Favorites</h1>
           <h4 class="txth4">Choose your favorite lectures!</h4>
-          <h5 class="txth4">
+          <h5 class="txth5">
             Here You can see all lessons that You choose as Your favorites
           </h5>
         </v-col>
@@ -78,7 +78,7 @@ export default {
       this.myFavoritesData = favoritesDataArray;
 
       if (favoritesDataArray.length > 0) {
-        this.language = favoritesDataArray[0].language; // Update the language property with the first item's language
+        this.language = favoritesDataArray[0].language;
         this.selectedLesson = favoritesDataArray[0].title;
         console.log("Language: ", this.language);
         console.log("Title: ", this.selectedLesson);
@@ -92,7 +92,7 @@ export default {
       };
     },
     selectLesson(language, title) {
-      this.language = language; // Update the language property
+      this.language = language; 
       this.selectedLesson = title;
       console.log("Language: ", this.language);
       console.log("Title: ", this.selectedLesson);
@@ -131,6 +131,11 @@ export default {
 }
 .vrow {
   margin-bottom: 500px;
+}
+.txth5 {
+  font-size: 20px;
+  font-weight: 70;
+  color: #ffffff;
 }
 </style>
 
