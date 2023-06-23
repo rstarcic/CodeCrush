@@ -3,6 +3,7 @@
 - Fakultet informatike u Puli (https://fipu.unipu.hr/)
 - Kolegij: Programsko inženjerstvo (https://fiputreca.notion.site/fiputreca/Programsko-in-enjerstvo-e353945331df468e8382cdad1e91c4b8i)
 - Mentor: doc. dr. sc. Nikola Tanković (https://fiputreca.notion.site/fiputreca/Kontakt-stranica-875574d1b92248b1a8e90dae52cd29a9)
+---
 ### Funkcionalnosti aplikacije
 CodeCrush sadrži sljedeće funckionalnosti: 
 - Home View: Početni prikaz aplikacije koji korisnicima pruža pregled svih dostupnih funkcionalnosti i informacija o CodeCrush aplikaciji.
@@ -12,10 +13,10 @@ CodeCrush sadrži sljedeće funckionalnosti:
 ---
 ### Linkovi
 - Link na javni prototip: https://www.figma.com/file/PAl7mTzfRZ2ztNRKwhjKaC/CodeCrush---javni-prototip?type=design&node-id=5-714&t=rINKoEPtDRZYWmWi-0
-- Link na web-aplikaciju: [https://youtu.be/l4FyR9KnAjk](https://code-crush.netlify.app/)
+- Link na web-aplikaciju: https://code-crush.netlify.app/
 - Video link: https://youtu.be/l4FyR9KnAjk
 - Link dokumentacije: [CodeCrush-Dokumentacija.pdf](https://github.com/rstarcic/CodeCrush/files/11853412/CodeCrush-Dokumentacija.pdf)
-- Link prezentacije: [Uploading CodeCrush_Prezentacija.pptx…]()
+- Link prezentacije: [CodeCrush_Prezentacija.pdf](https://github.com/rstarcic/CodeCrush/files/11853486/CodeCrush_Prezentacija.pdf)
 ---
 ### Planirana zaduženja
 - HomeView, SignUp, Profil, Lekcije
