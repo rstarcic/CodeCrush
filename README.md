@@ -5,9 +5,19 @@
 - Mentor: doc. dr. sc. Nikola Tanković (https://fiputreca.notion.site/fiputreca/Kontakt-stranica-875574d1b92248b1a8e90dae52cd29a9)
 ### Funkcionalnosti aplikacije
 CodeCrush sadrži sljedeće funckionalnosti: 
-- prijava i registracija korisnika
-- favorit (osobno označene najkorisnije lekcije)
-- dropdown menu za sljedeće programske jezike: HTML, CSS, JS i MD
-- link na javni prototip: https://www.figma.com/file/PAl7mTzfRZ2ztNRKwhjKaC/CodeCrush---javni-prototip?t=KF0wB7xi4Rq3v3qY-1
-- planirana zaduženja: drop down menu za JS i MD, JS i MD lekcije, JS i MD zadaci, završni kviz za JS i MD, registracija i prijava. 
+- Home View: Početni prikaz aplikacije koji korisnicima pruža pregled svih dostupnih funkcionalnosti i informacija o CodeCrush aplikaciji.
+- Prijava (Login) i registracija (Sign Up): Korisnici mogu se prijaviti na CodeCrush platformu putem korisničkog imena i lozinke ili stvoriti novi račun registracijom.
+- Lekcije pojedinog programskog jezika: CodeCrush pruža lekcije za četiri programska jezika - HTML, CSS, JavaScript (JS) i Markdown (MD).
+- Favoriti: Korisnici mogu označiti lekcije kao favorite kako bi ih mogli brže pronaći i pristupiti im u budućnosti.
+---
+### Linkovi
+- Link na javni prototip: https://www.figma.com/file/PAl7mTzfRZ2ztNRKwhjKaC/CodeCrush---javni-prototip?type=design&node-id=5-714&t=rINKoEPtDRZYWmWi-0
+- Link na web-aplikaciju: [https://youtu.be/l4FyR9KnAjk](https://code-crush.netlify.app/)
+- Video link: https://youtu.be/l4FyR9KnAjk
+- Link dokumentacije: [CodeCrush-Dokumentacija.pdf](https://github.com/rstarcic/CodeCrush/files/11853412/CodeCrush-Dokumentacija.pdf)
+- Link prezentacije: [Uploading CodeCrush_Prezentacija.pptx…]()
+---
+### Planirana zaduženja
+- HomeView, SignUp, Profil, Lekcije
+
  
