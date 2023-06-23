@@ -19,6 +19,6 @@ CodeCrush sadrži sljedeće funckionalnosti:
 - Link prezentacije: [CodeCrush_Prezentacija.pdf](https://github.com/rstarcic/CodeCrush/files/11853486/CodeCrush_Prezentacija.pdf)
 ---
 ### Planirana zaduženja
-- HomeView, SignUp, Profil, Lekcije
-
+- Roberta Starčić: Registracija, SignUp, Profil, Lekcije
+- Eugen Koštro: Login, Favoriti, dodavanje lekcija u Firebase
  
