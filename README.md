@@ -14,7 +14,7 @@ CodeCrush sadrži sljedeće funckionalnosti:
 ### Linkovi
 - Link na javni prototip: https://www.figma.com/file/PAl7mTzfRZ2ztNRKwhjKaC/CodeCrush---javni-prototip?type=design&node-id=5-714&t=rINKoEPtDRZYWmWi-0
 - Link na web-aplikaciju: https://code-crush.netlify.app/
-- Video link: [https://youtu.be/l4FyR9KnAjk](https://youtu.be/aCd7PTBToWk)
+- Video link: [[https://youtu.be/l4FyR9KnAjk](https://youtu.be/aCd7PTBToWk)](https://youtu.be/aCd7PTBToWk)
 - Link dokumentacije: [CodeCrush Dokumentacija.pdf](https://github.com/rstarcic/CodeCrush/files/11853680/CodeCrush.Dokumentacija.pdf)
 - Link prezentacije: [CodeCrush_Prezentacija.pdf](https://github.com/rstarcic/CodeCrush/files/11853486/CodeCrush_Prezentacija.pdf)
 ---
